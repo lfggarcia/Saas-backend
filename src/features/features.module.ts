@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { FeaturesService } from './features.service';
 import { FeaturesController } from './features.controller';
+import { Feature } from '../entities/feature.entity';
+import { Application } from '../entities/application.entity';
 
 @Module({
-  providers: [FeaturesService],
-  controllers: [FeaturesController]
+  imports: [TypeOrmModule.forFeature([Feature, Application])],  // Registramos las entidades
+  providers: [FeaturesService],  // Incluimos el servicio
+  controllers: [FeaturesController],  // Incluimos el controlador
 })
 export class FeaturesModule {}
