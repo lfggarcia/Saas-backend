@@ -4,6 +4,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from './entities/user.entity';
 import { Plan } from './entities/plan.entity';
 import { Application } from './entities/application.entity';
+import { AdminModule } from './admin/admin.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -22,6 +25,9 @@ import { Application } from './entities/application.entity';
         synchronize: true,
       }),
     }),
+    AdminModule,
+    UsersModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
