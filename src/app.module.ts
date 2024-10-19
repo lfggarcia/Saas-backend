@@ -7,6 +7,7 @@ import { Application } from './entities/application.entity';
 import { AdminModule } from './admin/admin.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { FeaturesModule } from './features/features.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { AuthModule } from './auth/auth.module';
     AdminModule,
     UsersModule,
     AuthModule,
+    FeaturesModule,
   ],
 })
 export class AppModule {}
