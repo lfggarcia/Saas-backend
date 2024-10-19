@@ -14,17 +14,35 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
+  // Obtener todas las aplicaciones de un usuario
   getAllApps(userId: string) {
     return this.appsRepository.find({ where: { user: { id: userId } } });
   }
 
+  // Obtener una aplicación específica
+  getAppById(id: string) {
+    return this.appsRepository.findOne({ where: { id }, relations: ['user'] });
+  }
+
+  // Crear una nueva aplicación
   createApp(createAppDto: any, userId: string) {
     const user = this.usersRepository.findOne({ where: { id: userId } });
     const newApp = this.appsRepository.create({ ...createAppDto, user });
     return this.appsRepository.save(newApp);
   }
 
-  getAppById(id: string) {
-    return this.appsRepository.findOne({ where: { id }, relations: ['user'] });  // Corregido para usar un solo argumento
+  // Actualizar una aplicación existente
+  async updateApp(id: string, updateAppDto: any) {
+    const app = await this.appsRepository.findOne({ where: { id } });
+    if (!app) {
+      throw new Error('Application not found');
+    }
+    Object.assign(app, updateAppDto);  // Actualizamos los campos
+    return this.appsRepository.save(app);
+  }
+
+  // Eliminar una aplicación
+  deleteApp(id: string) {
+    return this.appsRepository.delete(id);
   }
 }
