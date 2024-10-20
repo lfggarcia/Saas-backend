@@ -14,6 +14,7 @@ import { LanguagesModule } from './languages/languages.module';
 import { TranslationsModule } from './translations/translations.module';
 import { GlobalComponentsModule } from './global-components/global-components.module';
 import { ScreenComponentsModule } from './screen-components/screen-components.module';
+import { ThemesModule } from './themes/themes.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { ScreenComponentsModule } from './screen-components/screen-components.mo
     TranslationsModule,
     GlobalComponentsModule,
     ScreenComponentsModule,
+    ThemesModule,
   ],
 })
 export class AppModule {}
