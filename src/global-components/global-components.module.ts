@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { GlobalComponentsService } from './global-components.service';
 
-@Module({})
+@Module({
+  providers: [GlobalComponentsService]
+})
 export class GlobalComponentsModule {}
