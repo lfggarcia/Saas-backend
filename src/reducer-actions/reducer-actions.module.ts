@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { ReducerActionsService } from './reducer-actions.service';
 
-@Module({})
+@Module({
+  providers: [ReducerActionsService]
+})
 export class ReducerActionsModule {}
