@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { TranslationsService } from './translations.service';
 
-@Module({})
+@Module({
+  providers: [TranslationsService]
+})
 export class TranslationsModule {}
