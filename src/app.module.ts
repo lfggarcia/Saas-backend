@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { FeaturesModule } from './features/features.module';
 import { ScreensModule } from './screens/screens.module';
 import { PlansModule } from './plans/plans.module';
+import { LanguagesModule } from './languages/languages.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { PlansModule } from './plans/plans.module';
     FeaturesModule,
     ScreensModule,
     PlansModule,
+    LanguagesModule,
   ],
 })
 export class AppModule {}
