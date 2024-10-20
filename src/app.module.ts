@@ -20,6 +20,7 @@ import { CustomTokensModule } from './custom-tokens/custom-tokens.module';
 import { StoresModule } from './stores/stores.module';
 import { ReducersModule } from './reducers/reducers.module';
 import { ReducerActionsModule } from './reducer-actions/reducer-actions.module';
+import { FormFieldsModule } from './form-fields/form-fields.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { ReducerActionsModule } from './reducer-actions/reducer-actions.module';
     StoresModule,
     ReducersModule,
     ReducerActionsModule,
+    FormFieldsModule,
   ],
 })
 export class AppModule {}
