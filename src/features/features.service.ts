@@ -25,14 +25,24 @@ export class FeaturesService {
   }
 
   // Crear una nueva feature
-  async createFeature(appId: string, createFeatureDto: any) {
-    const app = await this.appsRepository.findOne({ where: { id: appId } });
-    if (!app) {
-      throw new Error('Application not found');
-    }
-    const newFeature = this.featuresRepository.create({ ...createFeatureDto, application: app });
-    return this.featuresRepository.save(newFeature);
-  }
+	async createFeature(appId: string, createFeatureDto: any, userId: string) {
+		const app = await this.appsRepository.findOne({ where: { id: appId }, relations: ['user'] });
+	
+		if (!app) {
+			throw new Error('Application not found');
+		}
+	
+		if (app.user.id !== userId) {
+			throw new Error('You are not authorized to modify this application');
+		}
+	
+		const newFeature = this.featuresRepository.create({
+			...createFeatureDto,
+			application: app,
+		});
+		return this.featuresRepository.save(newFeature);
+	}
+	
 
   // Actualizar una feature existente
   async updateFeature(id: string, updateFeatureDto: any) {
