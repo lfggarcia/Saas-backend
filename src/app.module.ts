@@ -11,6 +11,7 @@ import { FeaturesModule } from './features/features.module';
 import { ScreensModule } from './screens/screens.module';
 import { PlansModule } from './plans/plans.module';
 import { LanguagesModule } from './languages/languages.module';
+import { TranslationsModule } from './translations/translations.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { LanguagesModule } from './languages/languages.module';
     ScreensModule,
     PlansModule,
     LanguagesModule,
+    TranslationsModule,
   ],
 })
 export class AppModule {}
