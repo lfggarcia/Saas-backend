@@ -16,6 +16,7 @@ import { GlobalComponentsModule } from './global-components/global-components.mo
 import { ScreenComponentsModule } from './screen-components/screen-components.module';
 import { ThemesModule } from './themes/themes.module';
 import { ThemeTokensModule } from './theme-tokens/theme-tokens.module';
+import { CustomTokensModule } from './custom-tokens/custom-tokens.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { ThemeTokensModule } from './theme-tokens/theme-tokens.module';
     ScreenComponentsModule,
     ThemesModule,
     ThemeTokensModule,
+    CustomTokensModule,
   ],
 })
 export class AppModule {}
