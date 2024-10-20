@@ -12,21 +12,21 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  // Método para validar a un usuario con su email y password
+  // Validar al usuario
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.usersRepository.findOne({ where: { email } });
-    if (user && user.password === pass) {  // Aquí deberías encriptar y verificar la contraseña
+    if (user && user.password === pass) {  // Deberíamos usar hashing de contraseñas aquí
       const { password, ...result } = user;
-      return result;  // Retornamos al usuario sin la contraseña
+      return result;  // Devolvemos el usuario sin la contraseña
     }
     return null;
   }
 
-  // Método para generar un token JWT
+  // Generar un token JWT
   async login(user: any) {
-    const payload = { email: user.email, sub: user.id };
+    const payload = { email: user.email, sub: user.id, role: user.role };  // Incluimos el rol en el payload
     return {
-      access_token: this.jwtService.sign(payload),  // Firmamos el token con el payload del usuario
+      access_token: this.jwtService.sign(payload),
     };
   }
 }
