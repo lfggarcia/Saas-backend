@@ -13,6 +13,9 @@ export class User {
   @Column()
   password: string;
 
+  @Column({ default: 'user' })  // Campo para los roles de usuario (user o super_admin)
+  role: string;
+
   @ManyToOne(() => Plan, plan => plan.users)
   plan: Plan;
 
