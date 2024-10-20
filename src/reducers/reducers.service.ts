@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Reducer } from '../entities/reducer.entity';
 import { Store } from '../entities/store.entity';
+import { CreateReducerDto } from './dto/create-reducer.dto/create-reducer.dto';
 
 @Injectable()
 export class ReducersService {
@@ -14,44 +15,57 @@ export class ReducersService {
     private storesRepository: Repository<Store>,
   ) {}
 
-  // Obtener todos los reducers de una store
   getAllReducers(storeId: string) {
     return this.reducersRepository.find({ where: { store: { id: storeId } } });
   }
 
-  // Obtener un reducer específico
   getReducerById(id: string) {
     return this.reducersRepository.findOne({ where: { id }, relations: ['store'] });
   }
 
-  // Crear un nuevo reducer para una store
-  async createReducer(storeId: string, createReducerDto: any) {
-    const store = await this.storesRepository.findOne({ where: { id: storeId } });
-
-    if (!store) {
-      throw new Error('Store not found');
-    }
-
-    const newReducer = this.reducersRepository.create({
-      ...createReducerDto,
-      store,
-    });
-
-    return this.reducersRepository.save(newReducer);
-  }
-
-  // Actualizar un reducer existente
-  async updateReducer(id: string, updateReducerDto: any) {
-    const reducer = await this.reducersRepository.findOne({ where: { id } });
-    if (!reducer) {
-      throw new Error('Reducer not found');
-    }
-    Object.assign(reducer, updateReducerDto);  // Actualizamos los campos
-    return this.reducersRepository.save(reducer);
-  }
-
-  // Eliminar un reducer
-  deleteReducer(id: string) {
-    return this.reducersRepository.delete(id);
-  }
+  async createReducer(storeId: string, createReducerDto: CreateReducerDto, userId: string) {
+		const store = await this.storesRepository.findOne({
+			where: { id: storeId },
+			relations: ['application', 'application.user'],
+		});
+	
+		if (!store || store.application.user.id !== userId) {
+			throw new Error('You are not authorized to create a reducer for this store');
+		}
+	
+		const newReducer = this.reducersRepository.create({
+			...createReducerDto,
+			store,
+		});
+	
+		return this.reducersRepository.save(newReducer);
+	}
+	
+	async updateReducer(id: string, updateReducerDto: CreateReducerDto, userId: string) {
+		const reducer = await this.reducersRepository.findOne({
+			where: { id },
+			relations: ['store', 'store.application', 'store.application.user'],
+		});
+	
+		if (!reducer || reducer.store.application.user.id !== userId) {
+			throw new Error('You are not authorized to update this reducer');
+		}
+	
+		Object.assign(reducer, updateReducerDto);
+		return this.reducersRepository.save(reducer);
+	}
+	
+	async deleteReducer(id: string, userId: string) {
+		const reducer = await this.reducersRepository.findOne({
+			where: { id },
+			relations: ['store', 'store.application', 'store.application.user'],
+		});
+	
+		if (!reducer || reducer.store.application.user.id !== userId) {
+			throw new Error('You are not authorized to delete this reducer');
+		}
+	
+		return this.reducersRepository.delete(id);
+	}
+	
 }
