@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { ScreenComponent } from '../entities/screen-component.entity';
 import { ScreenVersion } from '../entities/screen-version.entity';
 import { GlobalComponent } from '../entities/global-component.entity';
+import { CreateScreenComponentDto } from './dto/create-screen-component.dto/create-screen-component.dto';
 
 @Injectable()
 export class ScreenComponentsService {
@@ -29,34 +30,46 @@ export class ScreenComponentsService {
   }
 
   // Crear un nuevo componente de pantalla
-  async createScreenComponent(screenVersionId: string, createScreenComponentDto: any) {
-    const screenVersion = await this.screenVersionsRepository.findOne({ where: { id: screenVersionId } });
-    const globalComponent = await this.globalComponentsRepository.findOne({ where: { id: createScreenComponentDto.globalComponentId } });
+	async createScreenComponent(screenVersionId: string, createScreenComponentDto: CreateScreenComponentDto, userId: string) {
+		const screenVersion = await this.screenVersionsRepository.findOne({ where: { id: screenVersionId }, relations: ['screen', 'screen.feature_version', 'screen.feature_version.feature', 'screen.feature_version.feature.application'] });
+	
+		if (!screenVersion || screenVersion.screen.feature_version.feature.application.user.id !== userId) {
+			throw new Error('You are not authorized to modify this screen version');
+		}
+	
+		const globalComponent = await this.globalComponentsRepository.findOne({ where: { id: createScreenComponentDto.globalComponentId } });
+	
+		if (!globalComponent) {
+			throw new Error('Global component not found');
+		}
+	
+		const newScreenComponent = this.screenComponentsRepository.create({
+			...createScreenComponentDto,
+			screen_version: screenVersion,
+			global_component: globalComponent,
+		});
+	
+		return this.screenComponentsRepository.save(newScreenComponent);
+	}
 
-    if (!screenVersion || !globalComponent) {
-      throw new Error('Screen version or global component not found');
-    }
-
-    const newScreenComponent = this.screenComponentsRepository.create({
-      ...createScreenComponentDto,
-      screen_version: screenVersion,
-      global_component: globalComponent,
-    });
-    return this.screenComponentsRepository.save(newScreenComponent);
-  }
-
-  // Actualizar un componente de pantalla existente
-  async updateScreenComponent(id: string, updateScreenComponentDto: any) {
-    const screenComponent = await this.screenComponentsRepository.findOne({ where: { id } });
-    if (!screenComponent) {
-      throw new Error('Screen component not found');
-    }
-    Object.assign(screenComponent, updateScreenComponentDto);  // Actualizamos los campos
-    return this.screenComponentsRepository.save(screenComponent);
-  }
-
-  // Eliminar un componente de pantalla
-  deleteScreenComponent(id: string) {
-    return this.screenComponentsRepository.delete(id);
-  }
+	async updateScreenComponent(id: string, updateScreenComponentDto: CreateScreenComponentDto, userId: string) {
+		const screenComponent = await this.screenComponentsRepository.findOne({ where: { id }, relations: ['screen_version', 'screen_version.screen', 'screen_version.screen.feature_version', 'screen_version.screen.feature_version.feature', 'screen_version.screen.feature_version.feature.application'] });
+	
+		if (!screenComponent || screenComponent.screen_version.screen.feature_version.feature.application.user.id !== userId) {
+			throw new Error('You are not authorized to modify this screen component');
+		}
+	
+		Object.assign(screenComponent, updateScreenComponentDto);
+		return this.screenComponentsRepository.save(screenComponent);
+	}
+	
+	async deleteScreenComponent(id: string, userId: string) {
+		const screenComponent = await this.screenComponentsRepository.findOne({ where: { id }, relations: ['screen_version', 'screen_version.screen', 'screen_version.screen.feature_version', 'screen_version.screen.feature_version.feature', 'screen_version.screen.feature_version.feature.application'] });
+	
+		if (!screenComponent || screenComponent.screen_version.screen.feature_version.feature.application.user.id !== userId) {
+			throw new Error('You are not authorized to delete this screen component');
+		}
+	
+		return this.screenComponentsRepository.delete(id);
+	}
 }
