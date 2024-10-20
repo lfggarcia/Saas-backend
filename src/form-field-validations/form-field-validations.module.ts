@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { FormFieldValidationsService } from './form-field-validations.service';
 
-@Module({})
+@Module({
+  providers: [FormFieldValidationsService]
+})
 export class FormFieldValidationsModule {}
