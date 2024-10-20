@@ -1,33 +1,44 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Req, UseGuards } from '@nestjs/common';
 import { StoresService } from './stores.service';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
+import { CreateStoreDto } from './dto/create-store.dto/create-store.dto';
 
 @Controller('users/apps/:appId/store')
-@UseGuards(JwtAuthGuard)  // Protegemos todas las rutas con autenticación JWT
+@UseGuards(JwtAuthGuard)
 export class StoresController {
   constructor(private readonly storesService: StoresService) {}
 
-  // Obtener la store de una aplicación (acceso para todos los usuarios autenticados)
   @Get()
   getStoreByAppId(@Param('appId') appId: string) {
     return this.storesService.getStoreByAppId(appId);
   }
 
-  // Crear una nueva store (solo super admin o el dueño de la aplicación)
   @Post()
-  createStore(@Param('appId') appId: string, @Body() createStoreDto: any) {
-    return this.storesService.createStore(appId, createStoreDto);
+  createStore(
+    @Param('appId') appId: string,
+    @Body() createStoreDto: CreateStoreDto,
+    @Req() req: any
+  ) {
+    const userId = req.user.id;
+    return this.storesService.createStore(appId, createStoreDto, userId);
   }
 
-  // Actualizar una store existente (solo super admin o el dueño de la aplicación)
   @Put(':id')
-  updateStore(@Param('id') id: string, @Body() updateStoreDto: any) {
-    return this.storesService.updateStore(id, updateStoreDto);
+  updateStore(
+    @Param('id') id: string, 
+    @Body() updateStoreDto: CreateStoreDto,
+    @Req() req: any
+  ) {
+    const userId = req.user.id;
+    return this.storesService.updateStore(id, updateStoreDto, userId);
   }
 
-  // Eliminar una store (solo super admin o el dueño de la aplicación)
   @Delete(':id')
-  deleteStore(@Param('id') id: string) {
-    return this.storesService.deleteStore(id);
+  deleteStore(
+    @Param('id') id: string,
+    @Req() req: any
+  ) {
+    const userId = req.user.id;
+    return this.storesService.deleteStore(id, userId);
   }
 }

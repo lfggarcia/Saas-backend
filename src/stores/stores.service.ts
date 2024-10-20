@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Store } from '../entities/store.entity';
 import { Application } from '../entities/application.entity';
+import { CreateStoreDto } from './dto/create-store.dto/create-store.dto';
 
 @Injectable()
 export class StoresService {
@@ -19,34 +20,49 @@ export class StoresService {
     return this.storesRepository.findOne({ where: { application: { id: appId } }, relations: ['application'] });
   }
 
-  // Crear una nueva store para una aplicación
-  async createStore(appId: string, createStoreDto: any) {
-    const application = await this.applicationsRepository.findOne({ where: { id: appId } });
-
-    if (!application) {
-      throw new Error('Application not found');
-    }
-
-    const newStore = this.storesRepository.create({
-      ...createStoreDto,
-      application,
-    });
-
-    return this.storesRepository.save(newStore);
-  }
-
-  // Actualizar una store existente
-  async updateStore(id: string, updateStoreDto: any) {
-    const store = await this.storesRepository.findOne({ where: { id } });
-    if (!store) {
-      throw new Error('Store not found');
-    }
-    Object.assign(store, updateStoreDto);  // Actualizamos los campos
-    return this.storesRepository.save(store);
-  }
-
-  // Eliminar una store
-  deleteStore(id: string) {
-    return this.storesRepository.delete(id);
-  }
+	async createStore(appId: string, createStoreDto: CreateStoreDto, userId: string) {
+		const application = await this.applicationsRepository.findOne({
+			where: { id: appId },
+			relations: ['user'],
+		});
+	
+		if (!application || application.user.id !== userId) {
+			throw new Error('You are not authorized to create a store for this application');
+		}
+	
+		const newStore = this.storesRepository.create({
+			...createStoreDto,
+			application,
+		});
+	
+		return this.storesRepository.save(newStore);
+	}
+	
+	async updateStore(id: string, updateStoreDto: CreateStoreDto, userId: string) {
+		const store = await this.storesRepository.findOne({
+			where: { id },
+			relations: ['application', 'application.user'],
+		});
+	
+		if (!store || store.application.user.id !== userId) {
+			throw new Error('You are not authorized to update this store');
+		}
+	
+		Object.assign(store, updateStoreDto);  // Actualizamos los campos
+		return this.storesRepository.save(store);
+	}
+	
+	async deleteStore(id: string, userId: string) {
+		const store = await this.storesRepository.findOne({
+			where: { id },
+			relations: ['application', 'application.user'],
+		});
+	
+		if (!store || store.application.user.id !== userId) {
+			throw new Error('You are not authorized to delete this store');
+		}
+	
+		return this.storesRepository.delete(id);
+	}
+	
 }
