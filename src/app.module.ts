@@ -23,6 +23,7 @@ import { ReducerActionsModule } from './reducer-actions/reducer-actions.module';
 import { FormFieldsModule } from './form-fields/form-fields.module';
 import { FormFieldValidationsModule } from './form-field-validations/form-field-validations.module';
 import { FeatureVersionsModule } from './feature-versions/feature-versions.module';
+import { ScreenVersionsModule } from './screen-versions/screen-versions.module';
 
 @Module({
   imports: [
@@ -60,6 +61,7 @@ import { FeatureVersionsModule } from './feature-versions/feature-versions.modul
     FormFieldsModule,
     FormFieldValidationsModule,
     FeatureVersionsModule,
+    ScreenVersionsModule,
   ],
 })
 export class AppModule {}
