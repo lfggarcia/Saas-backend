@@ -1,39 +1,49 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Req, UseGuards } from '@nestjs/common';
 import { ReducerActionsService } from './reducer-actions.service';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
+import { CreateReducerActionDto } from './dto/create-reducer-action.dto/create-reducer-action.dto';
 
 @Controller('users/apps/:appId/store/:storeId/reducers/:reducerId/actions')
-@UseGuards(JwtAuthGuard)  // Protegemos todas las rutas con autenticación JWT
+@UseGuards(JwtAuthGuard)
 export class ReducerActionsController {
   constructor(private readonly reducerActionsService: ReducerActionsService) {}
 
-  // Obtener todas las acciones de un reducer (acceso para todos los usuarios autenticados)
   @Get()
   getAllReducerActions(@Param('reducerId') reducerId: string) {
     return this.reducerActionsService.getAllReducerActions(reducerId);
   }
 
-  // Obtener una acción específica (acceso para todos los usuarios autenticados)
   @Get(':id')
   getReducerActionById(@Param('id') id: string) {
     return this.reducerActionsService.getReducerActionById(id);
   }
 
-  // Crear una nueva acción para un reducer (solo super admin o el dueño de la aplicación)
   @Post()
-  createReducerAction(@Param('reducerId') reducerId: string, @Body() createReducerActionDto: any) {
-    return this.reducerActionsService.createReducerAction(reducerId, createReducerActionDto);
+  createReducerAction(
+    @Param('reducerId') reducerId: string,
+    @Body() createReducerActionDto: CreateReducerActionDto,
+    @Req() req: any
+  ) {
+    const userId = req.user.id;
+    return this.reducerActionsService.createReducerAction(reducerId, createReducerActionDto, userId);
   }
 
-  // Actualizar una acción existente (solo super admin o el dueño de la aplicación)
   @Put(':id')
-  updateReducerAction(@Param('id') id: string, @Body() updateReducerActionDto: any) {
-    return this.reducerActionsService.updateReducerAction(id, updateReducerActionDto);
+  updateReducerAction(
+    @Param('id') id: string,
+    @Body() updateReducerActionDto: CreateReducerActionDto,
+    @Req() req: any
+  ) {
+    const userId = req.user.id;
+    return this.reducerActionsService.updateReducerAction(id, updateReducerActionDto, userId);
   }
 
-  // Eliminar una acción existente (solo super admin o el dueño de la aplicación)
   @Delete(':id')
-  deleteReducerAction(@Param('id') id: string) {
-    return this.reducerActionsService.deleteReducerAction(id);
+  deleteReducerAction(
+    @Param('id') id: string,
+    @Req() req: any
+  ) {
+    const userId = req.user.id;
+    return this.reducerActionsService.deleteReducerAction(id, userId);
   }
 }
