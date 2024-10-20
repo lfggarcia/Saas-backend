@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Application } from '../entities/application.entity';
 import { User } from '../entities/user.entity';
+import { CreateApplicationDto } from 'src/applications/dto/create-application.dto/create-application.dto';
 
 @Injectable()
 export class UsersService {
@@ -25,8 +26,8 @@ export class UsersService {
   }
 
   // Crear una nueva aplicación
-  createApp(createAppDto: any, userId: string) {
-    const user = this.usersRepository.findOne({ where: { id: userId } });
+  async createApp(createAppDto: CreateApplicationDto, userId: string) {
+    const user = await this.usersRepository.findOne({ where: { id: userId } });
     const newApp = this.appsRepository.create({ ...createAppDto, user });
     return this.appsRepository.save(newApp);
   }
