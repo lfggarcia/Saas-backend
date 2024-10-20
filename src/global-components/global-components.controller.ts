@@ -2,6 +2,7 @@ import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nes
 import { GlobalComponentsService } from './global-components.service';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { SuperAdminGuard } from 'src/auth/super-admin/super-admin.guard';
+import { CreateGlobalComponentDto } from './dto/create-global-component.dto/create-global-component.dto';
 
 @Controller('global-components')
 @UseGuards(JwtAuthGuard)  // Protegemos todas las rutas con autenticación JWT
@@ -23,14 +24,14 @@ export class GlobalComponentsController {
   // Crear un nuevo componente global (solo super admin)
   @UseGuards(SuperAdminGuard)  // Protegemos la creación solo para super admin
   @Post()
-  createGlobalComponent(@Body() createGlobalComponentDto: any) {
+  createGlobalComponent(@Body() createGlobalComponentDto: CreateGlobalComponentDto) {
     return this.globalComponentsService.createGlobalComponent(createGlobalComponentDto);
   }
 
   // Actualizar un componente global existente (solo super admin)
   @UseGuards(SuperAdminGuard)  // Protegemos la actualización solo para super admin
   @Put(':id')
-  updateGlobalComponent(@Param('id') id: string, @Body() updateGlobalComponentDto: any) {
+  updateGlobalComponent(@Param('id') id: string, @Body() updateGlobalComponentDto: CreateGlobalComponentDto) {
     return this.globalComponentsService.updateGlobalComponent(id, updateGlobalComponentDto);
   }
 

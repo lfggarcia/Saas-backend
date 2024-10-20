@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { GlobalComponent } from '../entities/global-component.entity';
+import { CreateGlobalComponentDto } from './dto/create-global-component.dto/create-global-component.dto';
 
 @Injectable()
 export class GlobalComponentsService {
@@ -21,13 +22,13 @@ export class GlobalComponentsService {
   }
 
   // Crear un nuevo componente global
-  createGlobalComponent(createGlobalComponentDto: any) {
+  createGlobalComponent(createGlobalComponentDto: CreateGlobalComponentDto) {
     const newGlobalComponent = this.globalComponentsRepository.create(createGlobalComponentDto);
     return this.globalComponentsRepository.save(newGlobalComponent);
   }
 
   // Actualizar un componente global existente
-  async updateGlobalComponent(id: string, updateGlobalComponentDto: any) {
+  async updateGlobalComponent(id: string, updateGlobalComponentDto: CreateGlobalComponentDto) {
     const globalComponent = await this.globalComponentsRepository.findOne({ where: { id } });
     if (!globalComponent) {
       throw new Error('Global Component not found');
