@@ -18,6 +18,7 @@ import { ThemesModule } from './themes/themes.module';
 import { ThemeTokensModule } from './theme-tokens/theme-tokens.module';
 import { CustomTokensModule } from './custom-tokens/custom-tokens.module';
 import { StoresModule } from './stores/stores.module';
+import { ReducersModule } from './reducers/reducers.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { StoresModule } from './stores/stores.module';
     ThemeTokensModule,
     CustomTokensModule,
     StoresModule,
+    ReducersModule,
   ],
 })
 export class AppModule {}
