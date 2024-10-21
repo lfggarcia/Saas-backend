@@ -27,19 +27,30 @@ export class FeaturesController {
     @Body() createFeatureDto: CreateFeatureDto,
     @Req() req: any
   ) {
-    const userId = req.user.id;  // Obtener el ID del usuario autenticado desde el token
+    const userId = req.user.id;
     return this.featuresService.createFeature(appId, createFeatureDto, userId);
   }
 
   // Actualizar una feature existente
   @Put(':id')
-  updateFeature(@Param('id') id: string, @Body() updateFeatureDto: any) {
-    return this.featuresService.updateFeature(id, updateFeatureDto);
+  updateFeature(
+		@Param('id') id: string,
+		@Param('appId') appId: string,
+		@Body() updateFeatureDto: any,
+		@Req() req: any
+	) {
+		const userId = req.user.id;
+    return this.featuresService.updateFeature(id, updateFeatureDto,appId, userId);
   }
 
   // Eliminar una feature
   @Delete(':id')
-  deleteFeature(@Param('id') id: string) {
-    return this.featuresService.deleteFeature(id);
+  deleteFeature(
+		@Param('id') id: string,
+		@Param('appId') appId: string,
+		@Req() req: any
+	) {
+		const userId = req.user.id;
+    return this.featuresService.deleteFeature(id, appId, userId);
   }
 }

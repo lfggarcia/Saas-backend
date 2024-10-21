@@ -45,17 +45,45 @@ export class FeaturesService {
 	
 
   // Actualizar una feature existente
-  async updateFeature(id: string, updateFeatureDto: any) {
-    const feature = await this.featuresRepository.findOne({ where: { id } });
+  async updateFeature(id: string, updateFeatureDto: any,appId: string, userId: string) {
+    const feature = await this.featuresRepository.findOne({ where: { id }, relations: ['application'] });
+		const app = await this.appsRepository.findOne({ where: { id: appId }, relations: ['user'] });
+
+		if (!app) {
+			throw new Error('Application not found');
+		}
+
+		if (app.user.id !== userId) {
+			throw new Error('You are not authorized to modify this application');
+		}
+
     if (!feature) {
       throw new Error('Feature not found');
     }
-    Object.assign(feature, updateFeatureDto);  // Actualizamos los campos
+    Object.assign(feature, updateFeatureDto);
     return this.featuresRepository.save(feature);
   }
 
   // Eliminar una feature
-  deleteFeature(id: string) {
+  async deleteFeature(id: string, appId: string, userId: string) {
+		const feature = await this.featuresRepository.findOne({ where: { id }, relations: ['application'] });
+		const app = await this.appsRepository.findOne({ where: { id: appId }, relations: ['user'] });
+
+		if (!app) {
+			throw new Error('Application not found');
+		}
+
+		if (!feature) {
+			throw new Error('Feature not found');
+		}
+
+		if (feature.application.id !== app.id) {
+			throw new Error('Feature does not belong to the application');
+		}
+
+		if (app.user.id !== userId) {
+			throw new Error('You are not authorized to modify this application');
+		}
     return this.featuresRepository.delete(id);
   }
 }
