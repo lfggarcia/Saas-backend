@@ -15,6 +15,17 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
+	isOwner(appId: string, userId: string) {
+		return this.appsRepository.findOne({
+			where: {
+				id: appId,
+				user: {
+					id: userId
+				}
+			}
+		});
+	}
+
   // Obtener todas las aplicaciones de un usuario
   getAllApps(userId: string, page: number = 1, limit: number = 10) {
     return this.appsRepository.find({
