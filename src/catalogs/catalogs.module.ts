@@ -11,6 +11,7 @@ import { Status } from './entities/status.entity';
 import { Role } from './entities/role.entity';
 import { Plan } from './entities/plan.entity';
 import { AliasesService } from './services/aliases.service';
+import { AliasesController } from './controllers/aliases.controller';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { AliasesService } from './services/aliases.service';
       Plan,
     ]),
   ],
-  controllers: [],
+  controllers: [AliasesController],
   providers: [AliasesService],
   exports: [],
 })
