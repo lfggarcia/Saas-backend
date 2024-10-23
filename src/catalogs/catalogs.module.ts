@@ -13,6 +13,7 @@ import { Plan } from './entities/plan.entity';
 import { AliasesService } from './services/aliases.service';
 import { AliasesController } from './controllers/aliases.controller';
 import { TokenGroupsService } from './services/token-groups.service';
+import { TokenGroupsController } from './controllers/token-groups.controller';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { TokenGroupsService } from './services/token-groups.service';
       Plan,
     ]),
   ],
-  controllers: [AliasesController],
+  controllers: [AliasesController, TokenGroupsController],
   providers: [AliasesService, TokenGroupsService],
   exports: [],
 })
