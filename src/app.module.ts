@@ -26,7 +26,7 @@ import { CatalogsModule } from './catalogs/catalogs.module';
       }),
       inject: [ConfigService],
     }),
-    CatalogsModule,
+    CatalogsModule
 	],
   controllers: [AppController],
   providers: [AppService],
