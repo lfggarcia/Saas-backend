@@ -10,6 +10,7 @@ import { ValidationType } from './entities/validation-type.entity';
 import { Status } from './entities/status.entity';
 import { Role } from './entities/role.entity';
 import { Plan } from './entities/plan.entity';
+import { AliasesService } from './services/aliases.service';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { Plan } from './entities/plan.entity';
     ]),
   ],
   controllers: [],
-  providers: [],
+  providers: [AliasesService],
   exports: [],
 })
 export class CatalogsModule {}
