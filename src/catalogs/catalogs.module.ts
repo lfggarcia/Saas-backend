@@ -12,6 +12,7 @@ import { Role } from './entities/role.entity';
 import { Plan } from './entities/plan.entity';
 import { AliasesService } from './services/aliases.service';
 import { AliasesController } from './controllers/aliases.controller';
+import { TokenGroupsService } from './services/token-groups.service';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { AliasesController } from './controllers/aliases.controller';
     ]),
   ],
   controllers: [AliasesController],
-  providers: [AliasesService],
+  providers: [AliasesService, TokenGroupsService],
   exports: [],
 })
 export class CatalogsModule {}
