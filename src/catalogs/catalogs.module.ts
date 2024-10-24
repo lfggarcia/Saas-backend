@@ -23,6 +23,7 @@ import { FieldTypesController } from './controllers/field-types.controller';
 import { PlansService } from './services/plans.service';
 import { PlansController } from './controllers/plans.controller';
 import { RolesService } from './services/roles.service';
+import { RolesController } from './controllers/roles.controller';
 
 @Module({
   imports: [
@@ -39,7 +40,7 @@ import { RolesService } from './services/roles.service';
       Plan,
     ]),
   ],
-  controllers: [AliasesController, TokenGroupsController, DefaultTokensController, ComponentTypesController, FieldTypesController, PlansController],
+  controllers: [AliasesController, TokenGroupsController, DefaultTokensController, ComponentTypesController, FieldTypesController, PlansController, RolesController],
   providers: [AliasesService, TokenGroupsService, DefaultTokensService, ComponentTypesService, FieldTypesService, PlansService, RolesService],
   exports: [],
 })
