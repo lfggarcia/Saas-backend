@@ -21,6 +21,7 @@ import { ComponentTypesController } from './controllers/component-types.controll
 import { FieldTypesService } from './services/field-types.service';
 import { FieldTypesController } from './controllers/field-types.controller';
 import { PlansService } from './services/plans.service';
+import { PlansController } from './controllers/plans.controller';
 
 @Module({
   imports: [
@@ -37,7 +38,7 @@ import { PlansService } from './services/plans.service';
       Plan,
     ]),
   ],
-  controllers: [AliasesController, TokenGroupsController, DefaultTokensController, ComponentTypesController, FieldTypesController],
+  controllers: [AliasesController, TokenGroupsController, DefaultTokensController, ComponentTypesController, FieldTypesController, PlansController],
   providers: [AliasesService, TokenGroupsService, DefaultTokensService, ComponentTypesService, FieldTypesService, PlansService],
   exports: [],
 })
