@@ -16,6 +16,7 @@ import { TokenGroupsService } from './services/token-groups.service';
 import { TokenGroupsController } from './controllers/token-groups.controller';
 import { DefaultTokensService } from './services/default-tokens.service';
 import { DefaultTokensController } from './controllers/default-tokens.controller';
+import { ComponentTypesService } from './services/component-types.service';
 
 @Module({
   imports: [
@@ -33,7 +34,7 @@ import { DefaultTokensController } from './controllers/default-tokens.controller
     ]),
   ],
   controllers: [AliasesController, TokenGroupsController, DefaultTokensController],
-  providers: [AliasesService, TokenGroupsService, DefaultTokensService],
+  providers: [AliasesService, TokenGroupsService, DefaultTokensService, ComponentTypesService],
   exports: [],
 })
 export class CatalogsModule {}
