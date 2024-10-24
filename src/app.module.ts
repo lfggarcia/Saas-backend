@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatalogsModule } from './catalogs/catalogs.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { CatalogsModule } from './catalogs/catalogs.module';
       }),
       inject: [ConfigService],
     }),
-    CatalogsModule
+    CatalogsModule,
+    AuthModule
 	],
   controllers: [AppController],
   providers: [AppService],
