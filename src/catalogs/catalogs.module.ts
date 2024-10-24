@@ -18,6 +18,7 @@ import { DefaultTokensService } from './services/default-tokens.service';
 import { DefaultTokensController } from './controllers/default-tokens.controller';
 import { ComponentTypesService } from './services/component-types.service';
 import { ComponentTypesController } from './controllers/component-types.controller';
+import { FieldTypesService } from './services/field-types.service';
 
 @Module({
   imports: [
@@ -35,7 +36,7 @@ import { ComponentTypesController } from './controllers/component-types.controll
     ]),
   ],
   controllers: [AliasesController, TokenGroupsController, DefaultTokensController, ComponentTypesController],
-  providers: [AliasesService, TokenGroupsService, DefaultTokensService, ComponentTypesService],
+  providers: [AliasesService, TokenGroupsService, DefaultTokensService, ComponentTypesService, FieldTypesService],
   exports: [],
 })
 export class CatalogsModule {}
