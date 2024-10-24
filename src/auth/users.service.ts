@@ -6,6 +6,8 @@ import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { Role } from '../catalogs/entities/role.entity';
 
+type UserMode = 'user' | 'admin';
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -23,16 +25,16 @@ export class UsersService {
 		return this.rolesRepository.findOne({ where: { name } });
 	}
 
-  async create(userData: Partial<User>): Promise<User> {
+  async create(userData: Partial<User>, mode: UserMode = 'user'): Promise<User> {
     const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(userData.password, salt);
-		const role = await this.getRoleByName('user');
-    const user = this.usersRepository.create({
-      ...userData,
-			role_id: role.id,
-      password: hashedPassword,
-    });
+			const hashedPassword = await bcrypt.hash(userData.password, salt);
+			const role = await this.getRoleByName(mode);
+			const user = this.usersRepository.create({
+				...userData,
+				role_id: role.id,
+				password: hashedPassword,
+			});
 
-    return this.usersRepository.save(user);
+			return this.usersRepository.save(user);
   }
 }

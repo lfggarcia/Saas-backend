@@ -27,4 +27,14 @@ export class AuthController {
   async login(@Request() req) {
     return this.authService.login(req.user);
   }
+
+	@Post('admin/register')
+	async registerAdmin(@Body() createUserDto: CreateUserDto) {
+		// Asignamos el rol
+		const user = await this.usersService.create({
+			...createUserDto
+		}, 'admin');
+		const { password, ...result } = user;
+		return result;
+	}
 }
