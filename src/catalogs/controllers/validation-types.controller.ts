@@ -9,7 +9,7 @@ import { Roles } from '../../auth/decorators/roles.decorator';
 
 @Controller('catalogs/validation-types')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
-@Roles('superadmin')
+@Roles('admin')
 export class ValidationTypesController {
   constructor(private readonly validationTypesService: ValidationTypesService) {}
 
