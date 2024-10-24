@@ -27,6 +27,7 @@ import { RolesController } from './controllers/roles.controller';
 import { StatusesService } from './services/statuses.service';
 import { StatusesController } from './controllers/statuses.controller';
 import { TokenGroupAliasesService } from './services/token-group-aliases.service';
+import { TokenGroupAliasesController } from './controllers/token-group-aliases.controller';
 
 @Module({
   imports: [
@@ -43,7 +44,7 @@ import { TokenGroupAliasesService } from './services/token-group-aliases.service
       Plan,
     ]),
   ],
-  controllers: [AliasesController, TokenGroupsController, DefaultTokensController, ComponentTypesController, FieldTypesController, PlansController, RolesController, StatusesController],
+  controllers: [AliasesController, TokenGroupsController, DefaultTokensController, ComponentTypesController, FieldTypesController, PlansController, RolesController, StatusesController, TokenGroupAliasesController],
   providers: [AliasesService, TokenGroupsService, DefaultTokensService, ComponentTypesService, FieldTypesService, PlansService, RolesService, StatusesService, TokenGroupAliasesService],
   exports: [],
 })
