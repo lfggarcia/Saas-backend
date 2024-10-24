@@ -9,7 +9,7 @@ import { Roles } from '../../auth/decorators/roles.decorator';
 
 @Controller('catalogs/token-groups')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
-@Roles('superadmin')
+@Roles('admin')
 export class TokenGroupsController {
   constructor(private readonly tokenGroupsService: TokenGroupsService) {}
 
