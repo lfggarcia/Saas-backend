@@ -29,6 +29,7 @@ import { StatusesController } from './controllers/statuses.controller';
 import { TokenGroupAliasesService } from './services/token-group-aliases.service';
 import { TokenGroupAliasesController } from './controllers/token-group-aliases.controller';
 import { ValidationTypesService } from './services/validation-types.service';
+import { ValidationTypesController } from './controllers/validation-types.controller';
 
 @Module({
   imports: [
@@ -45,7 +46,7 @@ import { ValidationTypesService } from './services/validation-types.service';
       Plan,
     ]),
   ],
-  controllers: [AliasesController, TokenGroupsController, DefaultTokensController, ComponentTypesController, FieldTypesController, PlansController, RolesController, StatusesController, TokenGroupAliasesController],
+  controllers: [AliasesController, TokenGroupsController, DefaultTokensController, ComponentTypesController, FieldTypesController, PlansController, RolesController, StatusesController, TokenGroupAliasesController, ValidationTypesController],
   providers: [AliasesService, TokenGroupsService, DefaultTokensService, ComponentTypesService, FieldTypesService, PlansService, RolesService, StatusesService, TokenGroupAliasesService, ValidationTypesService],
   exports: [],
 })
