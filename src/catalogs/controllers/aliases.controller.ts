@@ -9,7 +9,7 @@ import { Roles } from '../../auth/decorators/roles.decorator';
 
 @Controller('catalogs/aliases')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
-@Roles('superadmin')
+@Roles('admin')
 export class AliasesController {
   constructor(private readonly aliasesService: AliasesService) {}
 
