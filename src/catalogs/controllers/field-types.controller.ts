@@ -9,7 +9,7 @@ import { Roles } from '../../auth/decorators/roles.decorator';
 
 @Controller('catalogs/field-types')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
-@Roles('superadmin')
+@Roles('admin')
 export class FieldTypesController {
   constructor(private readonly fieldTypesService: FieldTypesService) {}
 
