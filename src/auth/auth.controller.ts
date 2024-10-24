@@ -16,8 +16,7 @@ export class AuthController {
   async register(@Body() createUserDto: CreateUserDto) {
     // Asignamos el rol 'user' por defecto
     const user = await this.usersService.create({
-      ...createUserDto,
-      role_id: 'ID_DEL_ROL_USER', // Reemplaza con el ID real del rol 'user'
+      ...createUserDto
     });
     const { password, ...result } = user;
     return result;

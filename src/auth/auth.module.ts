@@ -12,10 +12,11 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Role } from '../catalogs/entities/role.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User,Role]),
     PassportModule,
     ConfigModule,
     JwtModule.registerAsync({
