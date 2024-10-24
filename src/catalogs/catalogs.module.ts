@@ -28,6 +28,7 @@ import { StatusesService } from './services/statuses.service';
 import { StatusesController } from './controllers/statuses.controller';
 import { TokenGroupAliasesService } from './services/token-group-aliases.service';
 import { TokenGroupAliasesController } from './controllers/token-group-aliases.controller';
+import { ValidationTypesService } from './services/validation-types.service';
 
 @Module({
   imports: [
@@ -45,7 +46,7 @@ import { TokenGroupAliasesController } from './controllers/token-group-aliases.c
     ]),
   ],
   controllers: [AliasesController, TokenGroupsController, DefaultTokensController, ComponentTypesController, FieldTypesController, PlansController, RolesController, StatusesController, TokenGroupAliasesController],
-  providers: [AliasesService, TokenGroupsService, DefaultTokensService, ComponentTypesService, FieldTypesService, PlansService, RolesService, StatusesService, TokenGroupAliasesService],
+  providers: [AliasesService, TokenGroupsService, DefaultTokensService, ComponentTypesService, FieldTypesService, PlansService, RolesService, StatusesService, TokenGroupAliasesService, ValidationTypesService],
   exports: [],
 })
 export class CatalogsModule {}
