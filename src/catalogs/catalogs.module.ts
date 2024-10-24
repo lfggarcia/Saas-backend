@@ -17,6 +17,7 @@ import { TokenGroupsController } from './controllers/token-groups.controller';
 import { DefaultTokensService } from './services/default-tokens.service';
 import { DefaultTokensController } from './controllers/default-tokens.controller';
 import { ComponentTypesService } from './services/component-types.service';
+import { ComponentTypesController } from './controllers/component-types.controller';
 
 @Module({
   imports: [
@@ -33,7 +34,7 @@ import { ComponentTypesService } from './services/component-types.service';
       Plan,
     ]),
   ],
-  controllers: [AliasesController, TokenGroupsController, DefaultTokensController],
+  controllers: [AliasesController, TokenGroupsController, DefaultTokensController, ComponentTypesController],
   providers: [AliasesService, TokenGroupsService, DefaultTokensService, ComponentTypesService],
   exports: [],
 })
