@@ -24,6 +24,7 @@ import { PlansService } from './services/plans.service';
 import { PlansController } from './controllers/plans.controller';
 import { RolesService } from './services/roles.service';
 import { RolesController } from './controllers/roles.controller';
+import { StatusesService } from './services/statuses.service';
 
 @Module({
   imports: [
@@ -41,7 +42,7 @@ import { RolesController } from './controllers/roles.controller';
     ]),
   ],
   controllers: [AliasesController, TokenGroupsController, DefaultTokensController, ComponentTypesController, FieldTypesController, PlansController, RolesController],
-  providers: [AliasesService, TokenGroupsService, DefaultTokensService, ComponentTypesService, FieldTypesService, PlansService, RolesService],
+  providers: [AliasesService, TokenGroupsService, DefaultTokensService, ComponentTypesService, FieldTypesService, PlansService, RolesService, StatusesService],
   exports: [],
 })
 export class CatalogsModule {}
