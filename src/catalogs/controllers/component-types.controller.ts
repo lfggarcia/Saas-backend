@@ -9,7 +9,7 @@ import { Roles } from '../../auth/decorators/roles.decorator';
 
 @Controller('catalogs/component-types')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
-@Roles('superadmin')
+@Roles('admin')
 export class ComponentTypesController {
   constructor(private readonly componentTypesService: ComponentTypesService) {}
 
