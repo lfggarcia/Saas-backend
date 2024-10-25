@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 import { App } from './entities/app.entity';
 import { CreateAppDto } from './dto/create-app.dto';
-import { UpdateAppDto } from './dto/update-app.dto';
+import { UpdateAppDto } from './dto/update-app.dto.ts';
 
 @Injectable()
 export class AppsService {
