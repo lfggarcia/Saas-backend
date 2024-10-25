@@ -7,6 +7,7 @@ import { CatalogsModule } from './catalogs/catalogs.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { AppsModule } from './apps/apps.module';
+import { FeaturesModule } from './features/features.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { AppsModule } from './apps/apps.module';
     CatalogsModule,
     AuthModule,
     UsersModule,
-    AppsModule
+    AppsModule,
+    FeaturesModule
 	],
   controllers: [AppController],
   providers: [AppService],
