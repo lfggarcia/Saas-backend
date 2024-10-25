@@ -2,9 +2,9 @@ import { Injectable, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { App } from './entities/app.entity';
+import { App } from './entity/app.entity';
 import { CreateAppDto } from './dto/create-app.dto';
-import { UpdateAppDto } from './dto/update-app.dto.ts';
+import { UpdateAppDto } from './dto/update-app.dto';
 
 @Injectable()
 export class AppsService {
