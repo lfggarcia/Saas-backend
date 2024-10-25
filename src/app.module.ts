@@ -12,10 +12,9 @@ import { UsersModule } from './users/users.module';
 		ConfigModule.forRoot({
       isGlobal: true,
     }),
-    // Configuración de TypeORM
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
+      useFactory: async () => ({
         type: 'postgres',
         host: process.env.DB_HOST,
       	port: parseInt(process.env.DB_PORT),
@@ -23,8 +22,7 @@ import { UsersModule } from './users/users.module';
       	password: process.env.DB_PASSWORD,
       	database: process.env.DB_NAME,
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-				// entities:[],
-        synchronize: false, // Usar solo en desarrollo
+        synchronize: false,
       }),
       inject: [ConfigService],
     }),
