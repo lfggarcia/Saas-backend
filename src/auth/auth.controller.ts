@@ -14,7 +14,6 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
-    // Asignamos el rol 'user' por defecto
     const user = await this.usersService.create({
       ...createUserDto
     });
@@ -30,7 +29,6 @@ export class AuthController {
 
 	@Post('admin/register')
 	async registerAdmin(@Body() createUserDto: CreateUserDto) {
-		// Asignamos el rol
 		const user = await this.usersService.create({
 			...createUserDto
 		}, 'admin');
