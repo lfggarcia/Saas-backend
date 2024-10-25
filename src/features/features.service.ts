@@ -14,9 +14,12 @@ export class FeaturesService {
   ) {}
 
   async create(createFeatureDto: CreateFeatureDto, userId: string): Promise<Feature> {
-    const app = await this.featuresRepository.manager.findOne('App', createFeatureDto.app_id, {
-      relations: ['user'],
-    });
+    const app = await this.featuresRepository.findOne({
+			where: {
+				app: { id: createFeatureDto.app_id },
+			},
+			relations: ['app'],
+		});
 
     if (!app) {
       throw new NotFoundException('Aplicación no encontrada');
@@ -63,7 +66,9 @@ export class FeaturesService {
 
     await this.featuresRepository.update(id, updateFeatureDto);
 
-    return this.featuresRepository.findOne(id);
+    return this.featuresRepository.findOne({
+			where: { id },
+		});
   }
 
   async remove(id: string, userId: string): Promise<void> {
