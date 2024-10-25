@@ -17,10 +17,6 @@ export class UsersService {
 		private rolesRepository: Repository<Role>,
   ) {}
 
-  async findOneByEmail(email: string): Promise<User> {
-    return this.usersRepository.findOne({ where: { email } });
-  }
-
 	async getRoleByName(name: string): Promise<Role> {
 		return this.rolesRepository.findOne({ where: { name } });
 	}
@@ -36,5 +32,30 @@ export class UsersService {
 			});
 
 			return this.usersRepository.save(user);
+  }
+
+	findAll(): Promise<User[]> {
+    return this.usersRepository.find({ relations: ['role'] });
+  }
+
+  findOne(id: string): Promise<User> {
+    return this.usersRepository.findOne({ where: { id }, relations: ['role'] });
+  }
+
+  findOneByEmail(email: string): Promise<User> {
+    return this.usersRepository.findOne({ where: { email }, relations: ['role'] });
+  }
+
+	async update(id: string, userData: Partial<User>): Promise<User> {
+    if (userData.password) {
+      const salt = await bcrypt.genSalt();
+      userData.password = await bcrypt.hash(userData.password, salt);
+    }
+    await this.usersRepository.update(id, userData);
+    return this.usersRepository.findOne({ where: { id }, relations: ['role'] });
+  }
+
+  async remove(id: string): Promise<void> {
+    await this.usersRepository.delete(id);
   }
 }
