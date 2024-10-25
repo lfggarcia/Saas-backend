@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Feature } from '../../features/entities/feature.entity';
 
 @Entity()
@@ -20,4 +20,7 @@ export class Screen {
 
   @Column({ type: 'timestamp', nullable: true })
   updated_at: Date;
+
+	@OneToMany(() => Screen, screen => screen.feature)
+  screens: Screen[];
 }
