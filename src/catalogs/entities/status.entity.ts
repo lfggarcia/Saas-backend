@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
-import { App } from '../../apps/entity/app.entity';
+import { App } from '../../apps/entities/app.entity';
 
 @Entity('statuses')
 export class Status {
