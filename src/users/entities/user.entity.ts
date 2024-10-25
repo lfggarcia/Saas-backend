@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Role } from '../../catalogs/entities/role.entity';
+import { App } from '../../apps/entity/app.entity';
 
 @Entity('users')
 export class User {
@@ -18,6 +19,9 @@ export class User {
   @ManyToOne(() => Role, { eager: true })
   @JoinColumn({ name: 'role_id' })
   role: Role;
+
+	@OneToMany(() => App, app => app.user)
+  apps: App[];
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
