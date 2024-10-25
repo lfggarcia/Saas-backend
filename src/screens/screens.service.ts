@@ -14,10 +14,12 @@ export class ScreensService {
   ) {}
 
   async create(createScreenDto: CreateScreenDto, userId: string): Promise<Screen> {
-    // Verificar si el usuario es propietario de la característica
-    const feature = await this.screensRepository.manager.findOne('Feature', createScreenDto.feature_id, {
-      relations: ['app', 'app.user'],
-    });
+		const feature = await this.screensRepository.findOne({
+			where: {
+				id: createScreenDto.feature_id,
+			},
+			relations: ['app', 'app.user'],
+		})
 
     if (!feature) {
       throw new NotFoundException('Característica no encontrada');
@@ -64,7 +66,9 @@ export class ScreensService {
 
     await this.screensRepository.update(id, updateScreenDto);
 
-    return this.screensRepository.findOne(id);
+    return this.screensRepository.findOne({
+			where: { id }	
+		});
   }
 
   async remove(id: string, userId: string): Promise<void> {
