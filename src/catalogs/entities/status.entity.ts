@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { App } from '../../apps/entity/app.entity';
 
 @Entity('statuses')
 export class Status {
@@ -10,6 +11,9 @@ export class Status {
 
   @Column({ type: 'text', nullable: true })
   description?: string;
+
+	@OneToMany(() => App, app => app.status)
+  apps: App[];
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
