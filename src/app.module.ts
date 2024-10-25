@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { AppsModule } from './apps/apps.module';
 import { FeaturesModule } from './features/features.module';
+import { ScreensModule } from './screens/screens.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { FeaturesModule } from './features/features.module';
     AuthModule,
     UsersModule,
     AppsModule,
-    FeaturesModule
+    FeaturesModule,
+    ScreensModule
 	],
   controllers: [AppController],
   providers: [AppService],
