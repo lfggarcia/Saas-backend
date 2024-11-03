@@ -10,7 +10,7 @@ import { Component } from './entities/component.entity';
 import { CreateComponentDto } from './dto/create-component.dto';
 import { UpdateComponentDto } from './dto/update-component.dto';
 
-import { Screen } from '../../screens/entities/screen.entity';
+import { Screen } from '../screens/entities/screen.entity'
 
 @Injectable()
 export class ComponentsService {
