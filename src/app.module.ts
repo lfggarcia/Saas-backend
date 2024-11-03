@@ -11,6 +11,7 @@ import { FeaturesModule } from './features/features.module';
 import { ScreensModule } from './screens/screens.module';
 import { ComponentsModule } from './components/components.module';
 import { ThemesService } from './themes/themes.service';
+import { ThemesController } from './themes/themes.controller';
 
 @Module({
   imports: [
@@ -39,7 +40,7 @@ import { ThemesService } from './themes/themes.service';
     ScreensModule,
     ComponentsModule
 	],
-  controllers: [AppController],
+  controllers: [AppController, ThemesController],
   providers: [AppService, ThemesService],
 })
 export class AppModule {}
