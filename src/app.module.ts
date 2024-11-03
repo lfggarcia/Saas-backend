@@ -12,6 +12,7 @@ import { ScreensModule } from './screens/screens.module';
 import { ComponentsModule } from './components/components.module';
 import { ThemesService } from './themes/themes.service';
 import { ThemesController } from './themes/themes.controller';
+import { ThemesModule } from './themes/themes.module';
 
 @Module({
   imports: [
@@ -38,7 +39,8 @@ import { ThemesController } from './themes/themes.controller';
     AppsModule,
     FeaturesModule,
     ScreensModule,
-    ComponentsModule
+    ComponentsModule,
+    ThemesModule
 	],
   controllers: [AppController, ThemesController],
   providers: [AppService, ThemesService],
