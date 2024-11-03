@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import { AppsModule } from './apps/apps.module';
 import { FeaturesModule } from './features/features.module';
 import { ScreensModule } from './screens/screens.module';
+import { ComponentsModule } from './components/components.module';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { ScreensModule } from './screens/screens.module';
     UsersModule,
     AppsModule,
     FeaturesModule,
-    ScreensModule
+    ScreensModule,
+    ComponentsModule
 	],
   controllers: [AppController],
   providers: [AppService],
