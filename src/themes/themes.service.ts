@@ -5,17 +5,21 @@ import { Repository } from 'typeorm';
 import { Theme } from './entities/theme.entity';
 import { CreateThemeDto } from './dto/create-theme.dto';
 import { UpdateThemeDto } from './dto/update-theme.dto';
+import { App } from '../apps/entities/app.entity';
 
 @Injectable()
 export class ThemesService {
   constructor(
     @InjectRepository(Theme)
     private themesRepository: Repository<Theme>,
+		@InjectRepository(App)
+		private appsRepository: Repository<App>,
   ) {}
 
   async create(createThemeDto: CreateThemeDto, userId: string): Promise<Theme> {
     // Verificar si el usuario es propietario de la aplicación
-    const application = await this.themesRepository.manager.findOne('App', createThemeDto.application_id, {
+    const application = await this.appsRepository.findOne({
+      where: { id: createThemeDto.application_id },
       relations: ['user'],
     });
 
@@ -64,7 +68,7 @@ export class ThemesService {
 
     await this.themesRepository.update(id, updateThemeDto);
 
-    return this.themesRepository.findOne(id);
+    return this.themesRepository.findOne({ where: { id } });
   }
 
   async remove(id: string, userId: string): Promise<void> {
