@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Feature } from '../../features/entities/feature.entity';
+import { Component } from '../../components/entities/component.entity';
 
 @Entity()
 export class Screen {
@@ -23,4 +24,9 @@ export class Screen {
 
 	@OneToMany(() => Screen, screen => screen.feature)
   screens: Screen[];
+
+	@OneToMany(() => Component, (component) => component.screen, {
+    cascade: true,
+  })
+  components: Component[];
 }
