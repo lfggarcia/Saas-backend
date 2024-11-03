@@ -13,6 +13,7 @@ import { ComponentsModule } from './components/components.module';
 import { ThemesService } from './themes/themes.service';
 import { ThemesController } from './themes/themes.controller';
 import { ThemesModule } from './themes/themes.module';
+import { ThemeTokensModule } from './theme-tokens/theme-tokens.module';
 
 @Module({
   imports: [
@@ -40,7 +41,8 @@ import { ThemesModule } from './themes/themes.module';
     FeaturesModule,
     ScreensModule,
     ComponentsModule,
-    ThemesModule
+    ThemesModule,
+    ThemeTokensModule
 	],
   controllers: [AppController, ThemesController],
   providers: [AppService, ThemesService],

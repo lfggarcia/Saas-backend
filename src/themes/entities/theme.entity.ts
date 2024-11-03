@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
-import { Application } from '../../apps/entities/app.entity';
+import { App } from '../../apps/entities/app.entity';
 import { ThemeToken } from '../../theme-tokens/entities/theme-token.entity';
 import { CustomToken } from '../../custom-tokens/entities/custom-token.entity';
 
@@ -11,13 +11,13 @@ export class Theme {
   @Column()
   name: string;
 
-  @ManyToOne(() => Application, application => application.themes)
-  application: Application;
+  @ManyToOne(() => App, (app) => app.themes)
+  application: App;
 
-  @OneToMany(() => ThemeToken, themeToken => themeToken.theme)
+  @OneToMany(() => ThemeToken, (themeToken) => themeToken.theme)
   themeTokens: ThemeToken[];
 
-  @OneToMany(() => CustomToken, customToken => customToken.theme)
+  @OneToMany(() => CustomToken, (customToken) => customToken.theme)
   customTokens: CustomToken[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
