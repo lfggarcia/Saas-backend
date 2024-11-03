@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'ty
 import { User } from '../../users/entities/user.entity';
 import { Status } from '../../catalogs/entities/status.entity';
 import { Feature } from '../../features/entities/feature.entity';
+import { Theme } from '../../themes/entities/theme.entity';
 
 @Entity()
 export class App {
@@ -22,6 +23,9 @@ export class App {
 
 	@OneToMany(() => Feature, feature => feature.app)
   features: Feature[];
+
+	@OneToMany(() => Theme, theme => theme.application)
+  themes: Theme[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
