@@ -42,7 +42,6 @@ export class ThemeTokensService {
       where: { id: themeId },
       relations: ['application', 'application.user'],
     });
-    });
 
     if (!theme) {
       throw new NotFoundException('Tema no encontrado');
