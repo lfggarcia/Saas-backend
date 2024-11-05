@@ -87,7 +87,7 @@ export class CustomTokensService {
       tokenGroup: updateCustomTokenDto.tokenGroup,
     });
 
-    return this.customTokensRepository.findOne({ where: { id }, relations: ['tokenGroup'] });
+    return this.customTokensRepository.findOne(id, { relations: ['tokenGroup'] });
   }
 
   async remove(id: string, userId: string): Promise<void> {
