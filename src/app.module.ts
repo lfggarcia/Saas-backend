@@ -14,6 +14,7 @@ import { ThemesService } from './themes/themes.service';
 import { ThemesController } from './themes/themes.controller';
 import { ThemesModule } from './themes/themes.module';
 import { ThemeTokensModule } from './theme-tokens/theme-tokens.module';
+import { CustomTokensModule } from './custom-tokens/custom-tokens.module';
 
 @Module({
   imports: [
@@ -42,7 +43,8 @@ import { ThemeTokensModule } from './theme-tokens/theme-tokens.module';
     ScreensModule,
     ComponentsModule,
     ThemesModule,
-    ThemeTokensModule
+    ThemeTokensModule,
+    CustomTokensModule
 	],
   controllers: [AppController, ThemesController],
   providers: [AppService, ThemesService],
