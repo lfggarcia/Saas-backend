@@ -22,6 +22,8 @@ import { ScreenComponentsModule } from './screen-components/screen-components.mo
 import { FeatureVersionsModule } from './feature-versions/feature-versions.module';
 import { ScreenVersionsModule } from './screen-versions/screen-versions.module';
 import { I18nModule } from './i18n/i18n.module';
+import { FormFieldsModule } from './form-fields/form-fields.module';
+import { FormFieldValidationsModule } from './form-field-validations/form-field-validations.module';
 
 @Module({
   imports: [
@@ -57,6 +59,8 @@ import { I18nModule } from './i18n/i18n.module';
     FeatureVersionsModule,
     ScreenVersionsModule,
     I18nModule,
+    FormFieldsModule,
+    FormFieldValidationsModule,
 	],
   controllers: [AppController, ThemesController, ScreenComponentsController],
   providers: [AppService, ThemesService, ScreenComponentsService],
