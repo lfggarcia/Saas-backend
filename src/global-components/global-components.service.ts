@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -13,55 +13,31 @@ export class GlobalComponentsService {
     private globalComponentsRepository: Repository<GlobalComponent>,
   ) {}
 
-  async create(createGlobalComponentDto: CreateGlobalComponentDto, userId: string): Promise<GlobalComponent> {
-    // Verificar si el usuario es propietario de la aplicación
-    const application = await this.globalComponentsRepository.manager.findOne('App', createGlobalComponentDto.application_id, {
-      relations: ['user'],
-    });
-
-    if (!application) {
-      throw new NotFoundException('Aplicación no encontrada');
-    }
-
-    if (application.user.id !== userId) {
-      throw new ForbiddenException('No tienes permiso para agregar componentes a esta aplicación');
-    }
-
+  async create(createGlobalComponentDto: CreateGlobalComponentDto): Promise<GlobalComponent> {
     const globalComponent = this.globalComponentsRepository.create({
       ...createGlobalComponentDto,
-      application: { id: createGlobalComponentDto.application_id },
       componentType: { id: createGlobalComponentDto.component_type_id },
     });
 
     return this.globalComponentsRepository.save(globalComponent);
   }
 
-  async findAll(userId: string): Promise<GlobalComponent[]> {
-    return this.globalComponentsRepository.find({
-      where: { application: { user: { id: userId } } },
-      relations: ['application', 'componentType'],
-    });
+  async findAll(): Promise<GlobalComponent[]> {
+    return this.globalComponentsRepository.find();
   }
 
-  async findOne(id: string, userId: string): Promise<GlobalComponent> {
-    const globalComponent = await this.globalComponentsRepository.findOne({
-      where: { id },
-      relations: ['application', 'application.user', 'componentType'],
-    });
+  async findOne(id: string): Promise<GlobalComponent> {
+    const globalComponent = await this.globalComponentsRepository.findOne(id);
 
     if (!globalComponent) {
       throw new NotFoundException('Componente global no encontrado');
     }
 
-    if (globalComponent.application.user.id !== userId) {
-      throw new ForbiddenException('No tienes permiso para acceder a este componente');
-    }
-
     return globalComponent;
   }
 
-  async update(id: string, updateGlobalComponentDto: UpdateGlobalComponentDto, userId: string): Promise<GlobalComponent> {
-    const globalComponent = await this.findOne(id, userId);
+  async update(id: string, updateGlobalComponentDto: UpdateGlobalComponentDto): Promise<GlobalComponent> {
+    const globalComponent = await this.findOne(id);
 
     if (updateGlobalComponentDto.component_type_id) {
       updateGlobalComponentDto.componentType = { id: updateGlobalComponentDto.component_type_id };
@@ -72,11 +48,11 @@ export class GlobalComponentsService {
       componentType: updateGlobalComponentDto.componentType,
     });
 
-    return this.globalComponentsRepository.findOne(id, { relations: ['componentType'] });
+    return this.globalComponentsRepository.findOne(id);
   }
 
-  async remove(id: string, userId: string): Promise<void> {
-    const globalComponent = await this.findOne(id, userId);
+  async remove(id: string): Promise<void> {
+    const globalComponent = await this.findOne(id);
 
     await this.globalComponentsRepository.delete(id);
   }
