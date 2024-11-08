@@ -1,0 +1,15 @@
+import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
+
+export class CreateStoreDto {
+  @IsString()
+  @IsNotEmpty()
+  application_id: string;
+
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+}
