@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { Screen } from '../../screens/entities/screen.entity';
 import { ScreenComponent } from '../../screen-components/entities/screen-component.entity';
@@ -14,6 +15,7 @@ export class ScreenVersion {
   id: string;
 
   @ManyToOne(() => Screen, (screen) => screen.screenVersions)
+  @JoinColumn({ name: 'screen_id' })
   screen: Screen;
 
   @Column()
