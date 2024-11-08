@@ -24,6 +24,14 @@ import { ScreenVersionsModule } from './screen-versions/screen-versions.module';
 import { I18nModule } from './i18n/i18n.module';
 import { FormFieldsModule } from './form-fields/form-fields.module';
 import { FormFieldValidationsModule } from './form-field-validations/form-field-validations.module';
+import { StoresService } from './stores/stores.service';
+import { ReducersService } from './reducers/reducers.service';
+import { ReducerActionsService } from './reducer-actions/reducer-actions.service';
+import { ReducersController } from './reducers/reducers.controller';
+import { ReducerActionsController } from './reducer-actions/reducer-actions.controller';
+import { ReducersModule } from './reducers/reducers.module';
+import { ReducerActionsModule } from './reducer-actions/reducer-actions.module';
+import { StoresModule } from './stores/stores.module';
 
 @Module({
   imports: [
@@ -61,8 +69,11 @@ import { FormFieldValidationsModule } from './form-field-validations/form-field-
     I18nModule,
     FormFieldsModule,
     FormFieldValidationsModule,
+    ReducersModule,
+    ReducerActionsModule,
+    StoresModule,
 	],
-  controllers: [AppController, ThemesController, ScreenComponentsController],
-  providers: [AppService, ThemesService, ScreenComponentsService],
+  controllers: [AppController, ThemesController, ScreenComponentsController, ReducersController, ReducerActionsController],
+  providers: [AppService, ThemesService, ScreenComponentsService, StoresService, ReducersService, ReducerActionsService],
 })
 export class AppModule {}

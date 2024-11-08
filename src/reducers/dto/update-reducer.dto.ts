@@ -1,5 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateReducerDto } from './create-reducer.dto';
+import { IsOptional } from 'class-validator';
 
 export class UpdateReducerDto extends PartialType(CreateReducerDto) {
   @IsOptional()
