@@ -4,10 +4,12 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+	OneToMany,
 } from 'typeorm';
 import { ScreenVersion } from '../../screen-versions/entities/screen-version.entity';
 import { GlobalComponent } from '../../global-components/entities/global-component.entity';
 import { TranslationKey } from '../../i18n/entities/translation-key.entity';
+import { FormField } from 'src/form-fields/entities/form-field.entity';
 
 @Entity('screen_components')
 export class ScreenComponent {
@@ -28,6 +30,9 @@ export class ScreenComponent {
   @ManyToOne(() => TranslationKey)
   @JoinColumn({ name: 'translation_key_id' })
   translationKey: TranslationKey;
+	
+	@OneToMany(() => FormField, (formField) => formField.screenComponent)
+  formFields: FormField[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
