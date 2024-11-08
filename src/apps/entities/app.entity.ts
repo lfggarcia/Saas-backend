@@ -3,6 +3,7 @@ import { User } from '../../users/entities/user.entity';
 import { Status } from '../../catalogs/entities/status.entity';
 import { Feature } from '../../features/entities/feature.entity';
 import { Theme } from '../../themes/entities/theme.entity';
+import { GlobalComponent } from '../../global-components/entities/global-component.entity';
 
 @Entity()
 export class App {
@@ -26,6 +27,9 @@ export class App {
 
 	@OneToMany(() => Theme, theme => theme.application)
   themes: Theme[];
+
+	@OneToMany(() => GlobalComponent, (globalComponent) => globalComponent.application)
+  globalComponents: GlobalComponent[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
