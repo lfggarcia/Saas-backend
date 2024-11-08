@@ -21,6 +21,7 @@ import { ScreenComponentsController } from './screen-components/screen-component
 import { ScreenComponentsModule } from './screen-components/screen-components.module';
 import { FeatureVersionsModule } from './feature-versions/feature-versions.module';
 import { ScreenVersionsModule } from './screen-versions/screen-versions.module';
+import { I18nModule } from './i18n/i18n.module';
 
 @Module({
   imports: [
@@ -54,7 +55,8 @@ import { ScreenVersionsModule } from './screen-versions/screen-versions.module';
     GlobalComponentsModule,
     ScreenComponentsModule,
     FeatureVersionsModule,
-    ScreenVersionsModule
+    ScreenVersionsModule,
+    I18nModule,
 	],
   controllers: [AppController, ThemesController, ScreenComponentsController],
   providers: [AppService, ThemesService, ScreenComponentsService],
