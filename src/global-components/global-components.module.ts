@@ -4,11 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GlobalComponentsService } from './global-components.service';
 import { GlobalComponentsController } from './global-components.controller';
 import { GlobalComponent } from './entities/global-component.entity';
+import { App } from '../apps/entities/app.entity';
 import { ComponentType } from '../catalogs/entities/component-type.entity';
-import { User } from '../users/entities/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([GlobalComponent, ComponentType, User])],
+  imports: [TypeOrmModule.forFeature([GlobalComponent, App, ComponentType])],
   providers: [GlobalComponentsService],
   controllers: [GlobalComponentsController],
 })
