@@ -26,8 +26,8 @@ export class Screen {
 	@OneToMany(() => Screen, screen => screen.feature)
   screens: Screen[];
 
-	@OneToMany(() => ScreenVersion, screenVersion => screenVersion.screen)
-	screenVersions: ScreenVersion[];
+	@OneToMany(() => ScreenVersion, (screenVersion) => screenVersion.screen)
+  screenVersions: ScreenVersion[];
 
 	@OneToMany(() => Component, (component) => component.screen, {
     cascade: true,
