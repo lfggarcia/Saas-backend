@@ -5,19 +5,22 @@ import { Repository } from 'typeorm';
 import { Store } from './entities/store.entity';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
+import { App } from '../apps/entities/app.entity';
 
 @Injectable()
 export class StoresService {
   constructor(
     @InjectRepository(Store)
     private storesRepository: Repository<Store>,
+    @InjectRepository(App)
+    private appsRepository: Repository<App>,
   ) {}
 
   async create(createStoreDto: CreateStoreDto, userId: string): Promise<Store> {
-		const application = await this.storesRepository.manager.findOne("App", {
-			where: { id: createStoreDto.application_id },
-			relations: ['user'],
-		});
+    // Verificar si el usuario es propietario de la aplicación
+    const application = await this.appsRepository.findOne(createStoreDto.application_id, {
+      relations: ['user'],
+    });
 
     if (!application) {
       throw new NotFoundException('Aplicación no encontrada');
@@ -35,36 +38,51 @@ export class StoresService {
     return this.storesRepository.save(store);
   }
 
-	async findAllByApplication(applicationId: string): Promise<Store[]> {
-		return this.storesRepository.find({
-			where: { application: { id: applicationId } },
-		});
-	}
+  async findAllByApplication(applicationId: string, userId: string): Promise<Store[]> {
+    const application = await this.appsRepository.findOne(applicationId, {
+      relations: ['user'],
+    });
 
-	async findOne(id: string): Promise<Store> {
-		return this.storesRepository.findOne({ where: { id } });
-	}
+    if (!application) {
+      throw new NotFoundException('Aplicación no encontrada');
+    }
 
-	async update(id: string, updateStoreDto: UpdateStoreDto): Promise<Store> {
-		const store = await this.storesRepository.preload({
-			id: id,
-			...updateStoreDto,
-		});
+    if (application.user.id !== userId) {
+      throw new ForbiddenException('No tienes permiso para acceder a los stores de esta aplicación');
+    }
 
-		if (!store) {
-			throw new NotFoundException('Store no encontrado');
-		}
+    return this.storesRepository.find({
+      where: { application: { id: applicationId } },
+    });
+  }
 
-		return this.storesRepository.save(store);
-	}
+  async findOne(id: string, userId: string): Promise<Store> {
+    const store = await this.storesRepository.findOne(id, {
+      relations: ['application', 'application.user'],
+    });
 
-	async remove(id: string): Promise<void> {
-		const store = await this.storesRepository.findOne({ where: { id } });
+    if (!store) {
+      throw new NotFoundException('Store no encontrado');
+    }
 
-		if (!store) {
-			throw new NotFoundException('Store no encontrado');
-		}
+    if (store.application.user.id !== userId) {
+      throw new ForbiddenException('No tienes permiso para acceder a este store');
+    }
 
-		await this.storesRepository.remove(store);
-	}
+    return store;
+  }
+
+  async update(id: string, updateStoreDto: UpdateStoreDto, userId: string): Promise<Store> {
+    const store = await this.findOne(id, userId);
+
+    await this.storesRepository.update(id, updateStoreDto);
+
+    return this.storesRepository.findOne(id);
+  }
+
+  async remove(id: string, userId: string): Promise<void> {
+    const store = await this.findOne(id, userId);
+
+    await this.storesRepository.delete(id);
+  }
 }
