@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
 import { App } from '../../apps/entities/app.entity';
 import { Screen } from '../../screens/entities/screen.entity';
+import { FeatureVersion } from '../../feature-versions/entities/feature-version.entity';
 
 @Entity()
 export class Feature {
@@ -18,6 +19,9 @@ export class Feature {
 
   @OneToMany(() => Screen, screen => screen.feature)
   screens: Screen[];
+
+	@OneToMany(() => FeatureVersion, (featureVersion) => featureVersion.feature)
+  featureVersions: FeatureVersion[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
