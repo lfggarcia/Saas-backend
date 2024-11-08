@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -13,58 +13,45 @@ export class GlobalComponentsService {
     private globalComponentsRepository: Repository<GlobalComponent>,
   ) {}
 
-  async create(createGlobalComponentDto: CreateGlobalComponentDto, userId: string): Promise<GlobalComponent> {
+  async create(createGlobalComponentDto: CreateGlobalComponentDto): Promise<GlobalComponent> {
     const globalComponent = this.globalComponentsRepository.create({
       ...createGlobalComponentDto,
-      user: { id: userId },
       componentType: { id: createGlobalComponentDto.component_type_id },
     });
-
     return this.globalComponentsRepository.save(globalComponent);
   }
 
-  async findAll(userId: string): Promise<GlobalComponent[]> {
-    return this.globalComponentsRepository.find({
-      where: { user: { id: userId } },
-      relations: ['componentType'],
-    });
+  async findAll(): Promise<GlobalComponent[]> {
+    return this.globalComponentsRepository.find({ relations: ['componentType'] });
   }
 
-  async findOne(id: string, userId: string): Promise<GlobalComponent> {
+  async findOne(id: string): Promise<GlobalComponent> {
     const globalComponent = await this.globalComponentsRepository.findOne({
-      where: { id },
-      relations: ['componentType', 'user'],
+			where: { id },
+      relations: ['componentType'],
     });
 
     if (!globalComponent) {
       throw new NotFoundException('Componente global no encontrado');
     }
 
-    if (globalComponent.user.id !== userId) {
-      throw new ForbiddenException('No tienes permiso para acceder a este componente global');
-    }
-
     return globalComponent;
   }
 
-  async update(id: string, updateGlobalComponentDto: UpdateGlobalComponentDto, userId: string): Promise<GlobalComponent> {
-    const globalComponent = await this.findOne(id, userId);
-
-    if (updateGlobalComponentDto.component_type_id) {
-      updateGlobalComponentDto.componentType = { id: updateGlobalComponentDto.component_type_id };
-    }
+  async update(id: string, updateGlobalComponentDto: UpdateGlobalComponentDto): Promise<GlobalComponent> {
+    const globalComponent = await this.findOne(id);
 
     await this.globalComponentsRepository.update(id, {
       ...updateGlobalComponentDto,
-      componentType: updateGlobalComponentDto.componentType,
+      componentType: updateGlobalComponentDto.component_type_id
+        ? { id: updateGlobalComponentDto.component_type_id }
+        : globalComponent.componentType,
     });
 
-    return this.globalComponentsRepository.findOne({where:{id}, relations: ['componentType'] });
+    return this.findOne(id);
   }
 
-  async remove(id: string, userId: string): Promise<void> {
-    const globalComponent = await this.findOne(id, userId);
-
+  async remove(id: string): Promise<void> {
     await this.globalComponentsRepository.delete(id);
   }
 }
