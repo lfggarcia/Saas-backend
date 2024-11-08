@@ -20,6 +20,7 @@ import { ScreenComponentsService } from './screen-components/screen-components.s
 import { ScreenComponentsController } from './screen-components/screen-components.controller';
 import { ScreenComponentsModule } from './screen-components/screen-components.module';
 import { FeatureVersionsModule } from './feature-versions/feature-versions.module';
+import { ScreenVersionsModule } from './screen-versions/screen-versions.module';
 
 @Module({
   imports: [
@@ -52,7 +53,8 @@ import { FeatureVersionsModule } from './feature-versions/feature-versions.modul
     CustomTokensModule,
     GlobalComponentsModule,
     ScreenComponentsModule,
-    FeatureVersionsModule
+    FeatureVersionsModule,
+    ScreenVersionsModule
 	],
   controllers: [AppController, ThemesController, ScreenComponentsController],
   providers: [AppService, ThemesService, ScreenComponentsService],
