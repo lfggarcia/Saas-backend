@@ -5,6 +5,7 @@ import { Feature } from '../../features/entities/feature.entity';
 import { Theme } from '../../themes/entities/theme.entity';
 import { TranslationKey } from '../../i18n/entities/translation-key.entity';
 import { Language } from '../../i18n/entities/language.entity';
+import { Store } from '../../stores/entities/store.entity';
 
 @Entity()
 export class App {
@@ -34,6 +35,9 @@ export class App {
 
   @OneToMany(() => Language, (language) => language.application)
   languages: Language[];
+
+	@OneToMany(() => Store, (store) => store.application)
+  stores: Store[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
