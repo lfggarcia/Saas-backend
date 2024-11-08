@@ -19,6 +19,7 @@ import { GlobalComponentsModule } from './global-components/global-components.mo
 import { ScreenComponentsService } from './screen-components/screen-components.service';
 import { ScreenComponentsController } from './screen-components/screen-components.controller';
 import { ScreenComponentsModule } from './screen-components/screen-components.module';
+import { FeatureVersionsModule } from './feature-versions/feature-versions.module';
 
 @Module({
   imports: [
@@ -50,7 +51,8 @@ import { ScreenComponentsModule } from './screen-components/screen-components.mo
     ThemeTokensModule,
     CustomTokensModule,
     GlobalComponentsModule,
-    ScreenComponentsModule
+    ScreenComponentsModule,
+    FeatureVersionsModule
 	],
   controllers: [AppController, ThemesController, ScreenComponentsController],
   providers: [AppService, ThemesService, ScreenComponentsService],
