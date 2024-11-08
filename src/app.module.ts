@@ -16,6 +16,9 @@ import { ThemesModule } from './themes/themes.module';
 import { ThemeTokensModule } from './theme-tokens/theme-tokens.module';
 import { CustomTokensModule } from './custom-tokens/custom-tokens.module';
 import { GlobalComponentsModule } from './global-components/global-components.module';
+import { ScreenComponentsService } from './screen-components/screen-components.service';
+import { ScreenComponentsController } from './screen-components/screen-components.controller';
+import { ScreenComponentsModule } from './screen-components/screen-components.module';
 
 @Module({
   imports: [
@@ -46,9 +49,10 @@ import { GlobalComponentsModule } from './global-components/global-components.mo
     ThemesModule,
     ThemeTokensModule,
     CustomTokensModule,
-    GlobalComponentsModule
+    GlobalComponentsModule,
+    ScreenComponentsModule
 	],
-  controllers: [AppController, ThemesController],
-  providers: [AppService, ThemesService],
+  controllers: [AppController, ThemesController, ScreenComponentsController],
+  providers: [AppService, ThemesService, ScreenComponentsService],
 })
 export class AppModule {}
