@@ -1,42 +1,42 @@
-import { Controller, Get, Post, Body, Param, Patch, Delete, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, Delete, UseGuards } from '@nestjs/common';
 import { GlobalComponentsService } from './global-components.service';
 import { CreateGlobalComponentDto } from './dto/create-global-component.dto';
 import { UpdateGlobalComponentDto } from './dto/update-global-component.dto';
 
 import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
 
 @Controller('global-components')
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard('jwt'), RolesGuard)
 export class GlobalComponentsController {
   constructor(private readonly globalComponentsService: GlobalComponentsService) {}
 
   @Post()
-  create(@Body() createGlobalComponentDto: CreateGlobalComponentDto, @Request() req) {
-    const userId = req.user.id;
-    return this.globalComponentsService.create(createGlobalComponentDto, userId);
+  @Roles('admin')
+  create(@Body() createGlobalComponentDto: CreateGlobalComponentDto) {
+    return this.globalComponentsService.create(createGlobalComponentDto);
   }
 
   @Get()
-  findAll(@Request() req) {
-    const userId = req.user.id;
-    return this.globalComponentsService.findAll(userId);
+  findAll() {
+    return this.globalComponentsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @Request() req) {
-    const userId = req.user.id;
-    return this.globalComponentsService.findOne(id, userId);
+  findOne(@Param('id') id: string) {
+    return this.globalComponentsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGlobalComponentDto: UpdateGlobalComponentDto, @Request() req) {
-    const userId = req.user.id;
-    return this.globalComponentsService.update(id, updateGlobalComponentDto, userId);
+  @Roles('admin')
+  update(@Param('id') id: string, @Body() updateGlobalComponentDto: UpdateGlobalComponentDto) {
+    return this.globalComponentsService.update(id, updateGlobalComponentDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string, @Request() req) {
-    const userId = req.user.id;
-    return this.globalComponentsService.remove(id, userId);
+  @Roles('admin')
+  remove(@Param('id') id: string) {
+    return this.globalComponentsService.remove(id);
   }
 }
