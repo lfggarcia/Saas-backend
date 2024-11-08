@@ -7,8 +7,12 @@ export class CreateGlobalComponentDto {
 
   @IsString()
   @IsNotEmpty()
+  application_id: string;
+
+  @IsString()
+  @IsNotEmpty()
   component_type_id: string;
 
   @IsOptional()
-  defaultProps?: Record<string, any>;
+  default_props?: Record<string, any>;
 }
