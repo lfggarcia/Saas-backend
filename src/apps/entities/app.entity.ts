@@ -3,6 +3,8 @@ import { User } from '../../users/entities/user.entity';
 import { Status } from '../../catalogs/entities/status.entity';
 import { Feature } from '../../features/entities/feature.entity';
 import { Theme } from '../../themes/entities/theme.entity';
+import { TranslationKey } from '../../i18n/entities/translation-key.entity';
+import { Language } from '../../i18n/entities/language.entity';
 
 @Entity()
 export class App {
@@ -26,6 +28,12 @@ export class App {
 
 	@OneToMany(() => Theme, theme => theme.application)
   themes: Theme[];
+
+	@OneToMany(() => TranslationKey, (translationKey) => translationKey.application)
+  translationKeys: TranslationKey[];
+
+  @OneToMany(() => Language, (language) => language.application)
+  languages: Language[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
