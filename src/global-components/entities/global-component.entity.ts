@@ -6,7 +6,6 @@ import {
   OneToMany,
 } from 'typeorm';
 import { ComponentType } from '../../catalogs/entities/component-type.entity';
-import { App } from '../../apps/entities/app.entity';
 import { ScreenComponent } from '../../screen-components/entities/screen-component.entity';
 
 @Entity()
@@ -14,14 +13,8 @@ export class GlobalComponent {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  name: string;
-
-  @ManyToOne(() => ComponentType)
+  @ManyToOne(() => ComponentType, { eager: true })
   componentType: ComponentType;
-
-  @ManyToOne(() => App, (app) => app.globalComponents)
-  application: App;
 
   @Column({ type: 'jsonb', nullable: true })
   default_props: Record<string, any>;
@@ -32,6 +25,6 @@ export class GlobalComponent {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'timestamp', nullable: true, onUpdate: 'CURRENT_TIMESTAMP' })
   updated_at: Date;
 }
