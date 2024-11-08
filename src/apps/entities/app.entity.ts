@@ -6,6 +6,7 @@ import { Theme } from '../../themes/entities/theme.entity';
 import { TranslationKey } from '../../i18n/entities/translation-key.entity';
 import { Language } from '../../i18n/entities/language.entity';
 import { Store } from '../../stores/entities/store.entity';
+import { GlobalStyle } from '../../global-styles/entities/global-style.entity';
 
 @Entity()
 export class App {
@@ -38,6 +39,9 @@ export class App {
 
 	@OneToMany(() => Store, (store) => store.application)
   stores: Store[];
+
+	@OneToMany(() => GlobalStyle, (globalStyle) => globalStyle.application)
+  globalStyles: GlobalStyle[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
