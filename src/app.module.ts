@@ -32,6 +32,12 @@ import { ReducerActionsController } from './reducer-actions/reducer-actions.cont
 import { ReducersModule } from './reducers/reducers.module';
 import { ReducerActionsModule } from './reducer-actions/reducer-actions.module';
 import { StoresModule } from './stores/stores.module';
+import { GlobalStylesService } from './global-styles/global-styles.service';
+import { GlobalStyleVariantsService } from './global-style-variants/global-style-variants.service';
+import { GlobalStylesController } from './global-styles/global-styles.controller';
+import { GlobalStyleVariantsController } from './global-style-variants/global-style-variants.controller';
+import { GlobalStylesModule } from './global-styles/global-styles.module';
+import { GlobalStyleVariantsModule } from './global-style-variants/global-style-variants.module';
 
 @Module({
   imports: [
@@ -72,8 +78,10 @@ import { StoresModule } from './stores/stores.module';
     ReducersModule,
     ReducerActionsModule,
     StoresModule,
+    GlobalStylesModule,
+    GlobalStyleVariantsModule,
 	],
-  controllers: [AppController, ThemesController, ScreenComponentsController, ReducersController, ReducerActionsController],
-  providers: [AppService, ThemesService, ScreenComponentsService, StoresService, ReducersService, ReducerActionsService],
+  controllers: [AppController, ThemesController, ScreenComponentsController, ReducersController, ReducerActionsController, GlobalStylesController, GlobalStyleVariantsController],
+  providers: [AppService, ThemesService, ScreenComponentsService, StoresService, ReducersService, ReducerActionsService, GlobalStylesService, GlobalStyleVariantsService],
 })
 export class AppModule {}
