@@ -14,10 +14,12 @@ export class LanguagesService {
   ) {}
 
   async create(createLanguageDto: CreateLanguageDto, userId: string): Promise<Language> {
-    // Verificar si el usuario es propietario de la aplicación
-    const application = await this.languagesRepository.manager.findOne('App', createLanguageDto.application_id, {
-      relations: ['user'],
-    });
+    const {application} = await this.languagesRepository.findOne({
+			where: {
+				application: { id: createLanguageDto.application_id}
+			},
+			relations: ['application', 'application.user']
+		})
 
     if (!application) {
       throw new NotFoundException('Aplicación no encontrada');
@@ -27,7 +29,6 @@ export class LanguagesService {
       throw new ForbiddenException('No tienes permiso para agregar idiomas a esta aplicación');
     }
 
-    // Si is_default es true, asegurar que no haya otro idioma por defecto
     if (createLanguageDto.is_default) {
       const defaultLanguage = await this.languagesRepository.findOne({
         where: { application: { id: createLanguageDto.application_id }, is_default: true },
@@ -47,10 +48,12 @@ export class LanguagesService {
   }
 
   async findAllByApplication(applicationId: string, userId: string): Promise<Language[]> {
-    // Verificar si el usuario es propietario de la aplicación
-    const application = await this.languagesRepository.manager.findOne('App', applicationId, {
-      relations: ['user'],
-    });
+    const {application} = await this.languagesRepository.findOne({
+			where: {
+				application: { id: applicationId}
+			},
+			relations: ['application', 'application.user']
+		})
 
     if (!application) {
       throw new NotFoundException('Aplicación no encontrada');
@@ -85,7 +88,6 @@ export class LanguagesService {
   async update(id: string, updateLanguageDto: UpdateLanguageDto, userId: string): Promise<Language> {
     const language = await this.findOne(id, userId);
 
-    // Si is_default se cambia a true, asegurar que no haya otro idioma por defecto
     if (updateLanguageDto.is_default) {
       const defaultLanguage = await this.languagesRepository.findOne({
         where: { application: { id: language.application.id }, is_default: true },
@@ -98,7 +100,9 @@ export class LanguagesService {
 
     await this.languagesRepository.update(id, updateLanguageDto);
 
-    return this.languagesRepository.findOne(id);
+    return this.languagesRepository.findOne({
+			where: { id },
+		});
   }
 
   async remove(id: string, userId: string): Promise<void> {
