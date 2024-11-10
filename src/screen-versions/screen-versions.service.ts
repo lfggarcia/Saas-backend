@@ -15,15 +15,26 @@ export class ScreenVersionsService {
 
   async create(createScreenVersionDto: CreateScreenVersionDto, userId: string): Promise<ScreenVersion> {
     // Verificar si el usuario es propietario de la pantalla
-    const screen = await this.screenVersionsRepository.manager.findOne('Screen', createScreenVersionDto.screen_id, {
-      relations: ['featureVersion', 'featureVersion.feature', 'featureVersion.feature.application', 'featureVersion.feature.application.user'],
-    });
+    const {screen} = await this.screenVersionsRepository.findOne({
+			where: {
+				screen: {
+					id: createScreenVersionDto.screen_id,
+				}
+			},
+			relations: [
+				'screen',,
+				'screen.featureVersion',
+				'screen.featureVersion.feature',
+				'screen.featureVersion.feature.app',
+				'screen.featureVersion.feature.app.user'
+			],
+		})
 
     if (!screen) {
       throw new NotFoundException('Pantalla no encontrada');
     }
 
-    if (screen.featureVersion.feature.application.user.id !== userId) {
+    if (screen.featureVersion.feature.app.user.id !== userId) {
       throw new ForbiddenException('No tienes permiso para crear versiones en esta pantalla');
     }
 
@@ -37,15 +48,26 @@ export class ScreenVersionsService {
 
   async findAllByScreen(screenId: string, userId: string): Promise<ScreenVersion[]> {
     // Verificar si el usuario es propietario de la pantalla
-    const screen = await this.screenVersionsRepository.manager.findOne('Screen', screenId, {
-      relations: ['featureVersion', 'featureVersion.feature', 'featureVersion.feature.application', 'featureVersion.feature.application.user'],
-    });
+    const {screen} = await this.screenVersionsRepository.findOne({
+			where: {
+				screen: {
+					id: screenId,
+				}
+			},
+			relations: [
+				'screen',,
+				'screen.featureVersion',
+				'screen.featureVersion.feature',
+				'screen.featureVersion.feature.app',
+				'screen.featureVersion.feature.app.user'
+			],
+		})
 
     if (!screen) {
       throw new NotFoundException('Pantalla no encontrada');
     }
 
-    if (screen.featureVersion.feature.application.user.id !== userId) {
+    if (screen.featureVersion.feature.app.user.id !== userId) {
       throw new ForbiddenException('No tienes permiso para acceder a las versiones de esta pantalla');
     }
 
@@ -57,14 +79,20 @@ export class ScreenVersionsService {
   async findOne(id: string, userId: string): Promise<ScreenVersion> {
     const screenVersion = await this.screenVersionsRepository.findOne({
       where: { id },
-      relations: ['screen', 'screen.featureVersion', 'screen.featureVersion.feature', 'screen.featureVersion.feature.application', 'screen.featureVersion.feature.application.user'],
+      relations: [
+				'screen',
+				'screen.featureVersion',
+				'screen.featureVersion.feature',
+				'screen.featureVersion.feature.app',
+				'screen.featureVersion.feature.app.user'
+			],
     });
 
     if (!screenVersion) {
       throw new NotFoundException('Versión de pantalla no encontrada');
     }
 
-    if (screenVersion.screen.featureVersion.feature.application.user.id !== userId) {
+    if (screenVersion.screen.featureVersion.feature.app.user.id !== userId) {
       throw new ForbiddenException('No tienes permiso para acceder a esta versión');
     }
 
@@ -76,7 +104,9 @@ export class ScreenVersionsService {
 
     await this.screenVersionsRepository.update(id, updateScreenVersionDto);
 
-    return this.screenVersionsRepository.findOne(id);
+    return this.screenVersionsRepository.findOne({
+			where: { id },
+		});
   }
 
   async remove(id: string, userId: string): Promise<void> {
