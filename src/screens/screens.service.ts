@@ -14,11 +14,13 @@ export class ScreensService {
   ) {}
 
   async create(createScreenDto: CreateScreenDto, userId: string): Promise<Screen> {
-		const feature = await this.screensRepository.findOne({
+		const {feature} = await this.screensRepository.findOne({
 			where: {
-				id: createScreenDto.feature_id,
+				feature: {
+					id: createScreenDto.feature_id
+				}
 			},
-			relations: ['app', 'app.user'],
+			relations: ['feature.app', 'feature.app.user'],
 		})
 
     if (!feature) {
