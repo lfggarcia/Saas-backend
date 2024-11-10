@@ -15,7 +15,6 @@ export class ScreenVersion {
   id: string;
 
   @ManyToOne(() => Screen, (screen) => screen.screenVersions)
-  @JoinColumn({ name: 'screen_id' })
   screen: Screen;
 
   @Column()
