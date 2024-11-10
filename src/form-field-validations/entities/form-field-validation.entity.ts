@@ -14,11 +14,9 @@ export class FormFieldValidation {
   id: string;
 
   @ManyToOne(() => FormField, (formField) => formField.validations)
-  @JoinColumn({ name: 'form_field_id' })
   formField: FormField;
 
   @ManyToOne(() => ValidationType)
-  @JoinColumn({ name: 'validation_type_id' })
   validationType: ValidationType;
 
   @Column({ nullable: true })
