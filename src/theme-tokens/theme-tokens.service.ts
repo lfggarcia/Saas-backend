@@ -14,11 +14,12 @@ export class ThemeTokensService {
   ) {}
 
   async create(createThemeTokenDto: CreateThemeTokenDto, userId: string): Promise<ThemeToken> {
-    // Verificar si el usuario es propietario del tema
-    const theme = await this.themeTokensRepository.manager.findOne("Theme", {
-			where: { id: createThemeTokenDto.theme_id },
-			relations: ['application', 'application.user']
-		});
+    const {theme} = await this.themeTokensRepository.findOne({
+			where: {
+				theme: { id: createThemeTokenDto.theme_id }
+			},
+			relations: ['theme', 'theme.application', 'theme.application.user']
+		})
 
     if (!theme) {
       throw new NotFoundException('Tema no encontrado');
@@ -38,10 +39,12 @@ export class ThemeTokensService {
   }
 
   async findAllByTheme(themeId: string, userId: string): Promise<ThemeToken[]> {
-    const theme = await this.themeTokensRepository.manager.findOne('Theme', {
-      where: { id: themeId },
-      relations: ['application', 'application.user'],
-    });
+    const {theme} = await this.themeTokensRepository.findOne({
+			where: {
+				theme: { id: themeId }
+			},
+			relations: ['theme', 'theme.application', 'theme.application.user']
+		})
 
     if (!theme) {
       throw new NotFoundException('Tema no encontrado');
@@ -86,7 +89,10 @@ export class ThemeTokensService {
       tokenGroup: updateThemeTokenDto.tokenGroup,
     });
 
-    return this.themeTokensRepository.findOne(id, { relations: ['tokenGroup'] });
+    return this.themeTokensRepository.findOne({
+			where: { id },
+			relations: ['tokenGroup']
+		});
   }
 
   async remove(id: string, userId: string): Promise<void> {
