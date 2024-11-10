@@ -15,14 +15,12 @@ export class FeatureVersion {
   id: string;
 
   @ManyToOne(() => Feature, (feature) => feature.featureVersions)
-  @JoinColumn({ name: 'feature_id' })
   feature: Feature;
 
   @Column()
   version: string;
 
   @ManyToOne(() => FeatureVersion, { nullable: true })
-  @JoinColumn({ name: 'replaces_feature_version_id' })
   replacesFeatureVersion: FeatureVersion;
 
   @OneToMany(() => Screen, (screen) => screen.featureVersion)
