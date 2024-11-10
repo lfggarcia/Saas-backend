@@ -6,10 +6,9 @@ import { AppsController } from './apps.controller';
 import { App } from './entities/app.entity';
 import { User } from '../users/entities/user.entity';
 import { Status } from '../catalogs/entities/status.entity';
-import { Theme } from 'src/themes/entities/theme.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([App, User, Status,Theme])],
+  imports: [TypeOrmModule.forFeature([App, User, Status])],
   providers: [AppsService],
   controllers: [AppsController],
 })
