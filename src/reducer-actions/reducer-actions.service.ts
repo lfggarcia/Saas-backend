@@ -18,7 +18,8 @@ export class ReducerActionsService {
 
   async create(createReducerActionDto: CreateReducerActionDto, userId: string): Promise<ReducerAction> {
     // Verificar si el usuario es propietario del reducer
-    const reducer = await this.reducersRepository.findOne(createReducerActionDto.reducer_id, {
+    const reducer = await this.reducersRepository.findOne({
+			where: { id: createReducerActionDto.reducer_id },
       relations: ['store', 'store.application', 'store.application.user'],
     });
 
@@ -39,8 +40,13 @@ export class ReducerActionsService {
   }
 
   async findAllByReducer(reducerId: string, userId: string): Promise<ReducerAction[]> {
-    const reducer = await this.reducersRepository.findOne(reducerId, {
-      relations: ['store', 'store.application', 'store.application.user'],
+    const reducer = await this.reducersRepository.findOne({
+			where: { id: reducerId },
+      relations: [
+				'store',
+				'store.application',
+				'store.application.user'
+			],
     });
 
     if (!reducer) {
@@ -57,8 +63,14 @@ export class ReducerActionsService {
   }
 
   async findOne(id: string, userId: string): Promise<ReducerAction> {
-    const reducerAction = await this.reducerActionsRepository.findOne(id, {
-      relations: ['reducer', 'reducer.store', 'reducer.store.application', 'reducer.store.application.user'],
+    const reducerAction = await this.reducerActionsRepository.findOne({
+			where: { id },
+      relations: [
+				'reducer',
+				'reducer.store',
+				'reducer.store.application',
+				'reducer.store.application.user'
+			],
     });
 
     if (!reducerAction) {
@@ -77,7 +89,9 @@ export class ReducerActionsService {
 
     await this.reducerActionsRepository.update(id, updateReducerActionDto);
 
-    return this.reducerActionsRepository.findOne(id);
+    return this.reducerActionsRepository.findOne({
+			where: { id }
+		});
   }
 
   async remove(id: string, userId: string): Promise<void> {
