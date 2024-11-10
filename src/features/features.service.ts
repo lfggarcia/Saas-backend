@@ -14,7 +14,7 @@ export class FeaturesService {
   ) {}
 
   async create(createFeatureDto: CreateFeatureDto, userId: string): Promise<Feature> {
-    const app = await this.featuresRepository.findOne({
+    const {app} = await this.featuresRepository.findOne({
 			where: {
 				app: { id: createFeatureDto.app_id },
 			},
