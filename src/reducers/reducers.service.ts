@@ -18,7 +18,10 @@ export class ReducersService {
 
   async create(createReducerDto: CreateReducerDto, userId: string): Promise<Reducer> {
     // Verificar si el usuario es propietario del store
-    const store = await this.storesRepository.findOne(createReducerDto.store_id, {
+    const store = await this.storesRepository.findOne({
+			where: {
+				id: createReducerDto.store_id,
+			},
       relations: ['application', 'application.user'],
     });
 
@@ -39,7 +42,10 @@ export class ReducersService {
   }
 
   async findAllByStore(storeId: string, userId: string): Promise<Reducer[]> {
-    const store = await this.storesRepository.findOne(storeId, {
+    const store = await this.storesRepository.findOne({
+			where: {
+				id: storeId
+			},
       relations: ['application', 'application.user'],
     });
 
@@ -57,9 +63,12 @@ export class ReducersService {
   }
 
   async findOne(id: string, userId: string): Promise<Reducer> {
-    const reducer = await this.reducersRepository.findOne(id, {
-      relations: ['store', 'store.application', 'store.application.user'],
-    });
+    const reducer = await this.reducersRepository.findOne({
+			where: {
+				id
+			},
+			relations: ['store', 'store.application', 'store.application.user'],
+		})
 
     if (!reducer) {
       throw new NotFoundException('Reducer no encontrado');
@@ -77,7 +86,9 @@ export class ReducersService {
 
     await this.reducersRepository.update(id, updateReducerDto);
 
-    return this.reducersRepository.findOne(id);
+    return this.reducersRepository.findOne({
+			where: { id }
+		});
   }
 
   async remove(id: string, userId: string): Promise<void> {
