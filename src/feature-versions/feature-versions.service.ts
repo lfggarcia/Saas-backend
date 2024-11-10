@@ -14,16 +14,25 @@ export class FeatureVersionsService {
   ) {}
 
   async create(createFeatureVersionDto: CreateFeatureVersionDto, userId: string): Promise<FeatureVersion> {
-    // Verificar si el usuario es propietario de la característica
-    const feature = await this.featureVersionsRepository.manager.findOne('Feature', createFeatureVersionDto.feature_id, {
-      relations: ['application', 'application.user'],
-    });
+    const featureVersionObj = await this.featureVersionsRepository.findOne({
+			where: { 
+				feature: {
+					id: createFeatureVersionDto.feature_id
+				}
+			},
+			relations: [
+				'feature', 
+				'feature.app',
+				'feature.app.user'
+			]
+		})
+		const feature = featureVersionObj?.feature
 
     if (!feature) {
       throw new NotFoundException('Característica no encontrada');
     }
 
-    if (feature.application.user.id !== userId) {
+    if (feature.app.user.id !== userId) {
       throw new ForbiddenException('No tienes permiso para crear versiones en esta característica');
     }
 
@@ -39,16 +48,20 @@ export class FeatureVersionsService {
   }
 
   async findAllByFeature(featureId: string, userId: string): Promise<FeatureVersion[]> {
-    // Verificar si el usuario es propietario de la característica
-    const feature = await this.featureVersionsRepository.manager.findOne('Feature', featureId, {
-      relations: ['application', 'application.user'],
-    });
+    const {feature} = await this.featureVersionsRepository.findOne({
+			where: {
+				feature: {
+					id: featureId
+				}
+			},
+			relations: ['feature.app', 'feature.app.user']
+		})
 
     if (!feature) {
       throw new NotFoundException('Característica no encontrada');
     }
 
-    if (feature.application.user.id !== userId) {
+    if (feature.app.user.id !== userId) {
       throw new ForbiddenException('No tienes permiso para acceder a las versiones de esta característica');
     }
 
@@ -61,14 +74,14 @@ export class FeatureVersionsService {
   async findOne(id: string, userId: string): Promise<FeatureVersion> {
     const featureVersion = await this.featureVersionsRepository.findOne({
       where: { id },
-      relations: ['feature', 'feature.application', 'feature.application.user', 'replacesFeatureVersion'],
+      relations: ['feature', 'feature.app', 'feature.app.user', 'replacesFeatureVersion'],
     });
 
     if (!featureVersion) {
       throw new NotFoundException('Versión de característica no encontrada');
     }
 
-    if (featureVersion.feature.application.user.id !== userId) {
+    if (featureVersion.feature.app.user.id !== userId) {
       throw new ForbiddenException('No tienes permiso para acceder a esta versión');
     }
 
@@ -89,7 +102,10 @@ export class FeatureVersionsService {
       replacesFeatureVersion: updateFeatureVersionDto.replacesFeatureVersion,
     });
 
-    return this.featureVersionsRepository.findOne(id, { relations: ['replacesFeatureVersion'] });
+    return this.featureVersionsRepository.findOne({
+			where: { id },
+			relations: ['replacesFeatureVersion']
+		});
   }
 
   async remove(id: string, userId: string): Promise<void> {
