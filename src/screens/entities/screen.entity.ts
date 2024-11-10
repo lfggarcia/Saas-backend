@@ -2,8 +2,9 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'ty
 import { Feature } from '../../features/entities/feature.entity';
 import { Component } from '../../components/entities/component.entity';
 import { ScreenVersion } from '../../screen-versions/entities/screen-version.entity';
+import { FeatureVersion } from '../../feature-versions/entities/feature-version.entity';
 
-@Entity()
+@Entity("screens")
 export class Screen {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -25,6 +26,9 @@ export class Screen {
 
 	@OneToMany(() => Screen, screen => screen.feature)
   screens: Screen[];
+
+	@ManyToOne(() => FeatureVersion, featureVersion => featureVersion.screens)
+	featureVersion: FeatureVersion;
 
 	@OneToMany(() => ScreenVersion, (screenVersion) => screenVersion.screen)
   screenVersions: ScreenVersion[];
