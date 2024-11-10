@@ -27,7 +27,9 @@ export class GlobalComponentsService {
   }
 
   async findOne(id: string): Promise<GlobalComponent> {
-    const globalComponent = await this.globalComponentsRepository.findOne(id);
+    const globalComponent = await this.globalComponentsRepository.findOne({
+			where: { id }
+		});
 
     if (!globalComponent) {
       throw new NotFoundException('Componente global no encontrado');
@@ -48,7 +50,9 @@ export class GlobalComponentsService {
       componentType: updateGlobalComponentDto.componentType,
     });
 
-    return this.globalComponentsRepository.findOne(id);
+    return this.globalComponentsRepository.findOne({
+			where: { id }
+		});
   }
 
   async remove(id: string): Promise<void> {
