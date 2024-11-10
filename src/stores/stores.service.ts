@@ -18,9 +18,10 @@ export class StoresService {
 
   async create(createStoreDto: CreateStoreDto, userId: string): Promise<Store> {
     // Verificar si el usuario es propietario de la aplicación
-    const application = await this.appsRepository.findOne(createStoreDto.application_id, {
-      relations: ['user'],
-    });
+    const application = await this.appsRepository.findOne({
+			where: { id: createStoreDto.application_id },
+			relations: ['user']
+		});
 
     if (!application) {
       throw new NotFoundException('Aplicación no encontrada');
@@ -39,9 +40,10 @@ export class StoresService {
   }
 
   async findAllByApplication(applicationId: string, userId: string): Promise<Store[]> {
-    const application = await this.appsRepository.findOne(applicationId, {
-      relations: ['user'],
-    });
+    const application = await this.appsRepository.findOne({
+			where: { id: applicationId },
+			relations: ['user']
+		});
 
     if (!application) {
       throw new NotFoundException('Aplicación no encontrada');
@@ -57,9 +59,10 @@ export class StoresService {
   }
 
   async findOne(id: string, userId: string): Promise<Store> {
-    const store = await this.storesRepository.findOne(id, {
-      relations: ['application', 'application.user'],
-    });
+    const store = await this.storesRepository.findOne({
+			where: { id },
+			relations: ['application', 'application.user']
+		});
 
     if (!store) {
       throw new NotFoundException('Store no encontrado');
@@ -77,7 +80,7 @@ export class StoresService {
 
     await this.storesRepository.update(id, updateStoreDto);
 
-    return this.storesRepository.findOne(id);
+    return this.storesRepository.findOne({where: {id}});
   }
 
   async remove(id: string, userId: string): Promise<void> {
