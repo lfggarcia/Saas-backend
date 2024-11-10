@@ -14,10 +14,12 @@ export class TranslationKeysService {
   ) {}
 
   async create(createTranslationKeyDto: CreateTranslationKeyDto, userId: string): Promise<TranslationKey> {
-    // Verificar si el usuario es propietario de la aplicación
-    const application = await this.translationKeysRepository.manager.findOne('App', createTranslationKeyDto.application_id, {
-      relations: ['user'],
-    });
+    const {application} = await this.translationKeysRepository.findOne({
+			where: {
+				application: { id: createTranslationKeyDto.application_id }
+			},
+			relations: ['application.user'],
+		});
 
     if (!application) {
       throw new NotFoundException('Aplicación no encontrada');
@@ -36,10 +38,10 @@ export class TranslationKeysService {
   }
 
   async findAllByApplication(applicationId: string, userId: string): Promise<TranslationKey[]> {
-    // Verificar si el usuario es propietario de la aplicación
-    const application = await this.translationKeysRepository.manager.findOne('App', applicationId, {
-      relations: ['user'],
-    });
+    const {application} = await this.translationKeysRepository.findOne({
+			where: { application: { id: applicationId } },
+			relations: ['application.user'],
+		})
 
     if (!application) {
       throw new NotFoundException('Aplicación no encontrada');
@@ -76,7 +78,9 @@ export class TranslationKeysService {
 
     await this.translationKeysRepository.update(id, updateTranslationKeyDto);
 
-    return this.translationKeysRepository.findOne(id);
+    return this.translationKeysRepository.findOne({
+			where: { id }
+		});
   }
 
   async remove(id: string, userId: string): Promise<void> {
