@@ -18,9 +18,12 @@ export class GlobalStylesService {
 
   async create(createGlobalStyleDto: CreateGlobalStyleDto, userId: string): Promise<GlobalStyle> {
     // Verificar si el usuario es propietario de la aplicación
-    const application = await this.appsRepository.findOne(createGlobalStyleDto.application_id, {
-      relations: ['user'],
-    });
+    const application = await this.appsRepository.findOne({
+			where: {
+				id: createGlobalStyleDto.application_id
+			},
+			relations: ['user'],
+		})
 
     if (!application) {
       throw new NotFoundException('Aplicación no encontrada');
@@ -39,9 +42,12 @@ export class GlobalStylesService {
   }
 
   async findAllByApplication(applicationId: string, userId: string): Promise<GlobalStyle[]> {
-    const application = await this.appsRepository.findOne(applicationId, {
-      relations: ['user'],
-    });
+    const application = await this.appsRepository.findOne({
+			where: {
+				id: applicationId
+			},
+			relations: ['user'],
+		});
 
     if (!application) {
       throw new NotFoundException('Aplicación no encontrada');
@@ -57,9 +63,10 @@ export class GlobalStylesService {
   }
 
   async findOne(id: string, userId: string): Promise<GlobalStyle> {
-    const globalStyle = await this.globalStylesRepository.findOne(id, {
-      relations: ['application', 'application.user'],
-    });
+    const globalStyle = await this.globalStylesRepository.findOne({
+			where: { id },
+			relations: ['application', 'application.user'],
+		});
 
     if (!globalStyle) {
       throw new NotFoundException('Estilo global no encontrado');
@@ -77,7 +84,9 @@ export class GlobalStylesService {
 
     await this.globalStylesRepository.update(id, updateGlobalStyleDto);
 
-    return this.globalStylesRepository.findOne(id);
+    return this.globalStylesRepository.findOne({
+			where: { id },
+		});
   }
 
   async remove(id: string, userId: string): Promise<void> {
