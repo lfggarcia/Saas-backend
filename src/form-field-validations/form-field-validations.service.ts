@@ -14,16 +14,28 @@ export class FormFieldValidationsService {
   ) {}
 
   async create(createFormFieldValidationDto: CreateFormFieldValidationDto, userId: string): Promise<FormFieldValidation> {
-    // Verificar si el usuario es propietario del campo de formulario
-    const formField = await this.formFieldValidationsRepository.manager.findOne('FormField', createFormFieldValidationDto.form_field_id, {
-      relations: ['screenComponent', 'screenComponent.screenVersion', 'screenComponent.screenVersion.screen', 'screenComponent.screenVersion.screen.featureVersion', 'screenComponent.screenVersion.screen.featureVersion.feature', 'screenComponent.screenVersion.screen.featureVersion.feature.application', 'screenComponent.screenVersion.screen.featureVersion.feature.application.user'],
-    });
+    const {formField} = await this.formFieldValidationsRepository.findOne({
+			where: {
+				formField: {
+					id: createFormFieldValidationDto.form_field_id,
+				}
+			},
+			relations: [
+				'formField.screenComponent',
+				'formField.screenComponent.screenVersion',
+				'formField.screenComponent.screenVersion.screen',
+				'formField.screenComponent.screenVersion.screen.featureVersion',
+				'formField.screenComponent.screenVersion.screen.featureVersion.feature',
+				'formField.screenComponent.screenVersion.screen.featureVersion.feature.app',
+				'formField.screenComponent.screenVersion.screen.featureVersion.feature.app.user'
+			]
+		})
 
     if (!formField) {
       throw new NotFoundException('Campo de formulario no encontrado');
     }
 
-    if (formField.screenComponent.screenVersion.screen.featureVersion.feature.application.user.id !== userId) {
+    if (formField.screenComponent.screenVersion.screen.featureVersion.feature.app.user.id !== userId) {
       throw new ForbiddenException('No tienes permiso para agregar validaciones a este campo');
     }
 
@@ -37,15 +49,28 @@ export class FormFieldValidationsService {
   }
 
   async findAllByFormField(formFieldId: string, userId: string): Promise<FormFieldValidation[]> {
-    const formField = await this.formFieldValidationsRepository.manager.findOne('FormField', formFieldId, {
-      relations: ['screenComponent', 'screenComponent.screenVersion', 'screenComponent.screenVersion.screen', 'screenComponent.screenVersion.screen.featureVersion', 'screenComponent.screenVersion.screen.featureVersion.feature', 'screenComponent.screenVersion.screen.featureVersion.feature.application', 'screenComponent.screenVersion.screen.featureVersion.feature.application.user'],
-    });
+    const {formField} = await this.formFieldValidationsRepository.findOne({
+			where: {
+				formField: {
+					id: formFieldId,
+				}
+			},
+			relations: [
+				'formField.screenComponent',
+				'formField.screenComponent.screenVersion',
+				'formField.screenComponent.screenVersion.screen',
+				'formField.screenComponent.screenVersion.screen.featureVersion',
+				'formField.screenComponent.screenVersion.screen.featureVersion.feature',
+				'formField.screenComponent.screenVersion.screen.featureVersion.feature.app',
+				'formField.screenComponent.screenVersion.screen.featureVersion.feature.app.user'
+			]
+		})
 
     if (!formField) {
       throw new NotFoundException('Campo de formulario no encontrado');
     }
 
-    if (formField.screenComponent.screenVersion.screen.featureVersion.feature.application.user.id !== userId) {
+    if (formField.screenComponent.screenVersion.screen.featureVersion.feature.app.user.id !== userId) {
       throw new ForbiddenException('No tienes permiso para acceder a las validaciones de este campo');
     }
 
@@ -58,14 +83,24 @@ export class FormFieldValidationsService {
   async findOne(id: string, userId: string): Promise<FormFieldValidation> {
     const formFieldValidation = await this.formFieldValidationsRepository.findOne({
       where: { id },
-      relations: ['formField', 'formField.screenComponent', 'formField.screenComponent.screenVersion', 'formField.screenComponent.screenVersion.screen', 'formField.screenComponent.screenVersion.screen.featureVersion', 'formField.screenComponent.screenVersion.screen.featureVersion.feature', 'formField.screenComponent.screenVersion.screen.featureVersion.feature.application', 'formField.screenComponent.screenVersion.screen.featureVersion.feature.application.user', 'validationType'],
+      relations: [
+				'formField',
+				'formField.screenComponent',
+				'formField.screenComponent.screenVersion',
+				'formField.screenComponent.screenVersion.screen',
+				'formField.screenComponent.screenVersion.screen.featureVersion',
+				'formField.screenComponent.screenVersion.screen.featureVersion.feature',
+				'formField.screenComponent.screenVersion.screen.featureVersion.feature.app',
+				'formField.screenComponent.screenVersion.screen.featureVersion.feature.app.user',
+				'validationType'
+			],
     });
 
     if (!formFieldValidation) {
       throw new NotFoundException('Validación no encontrada');
     }
 
-    if (formFieldValidation.formField.screenComponent.screenVersion.screen.featureVersion.feature.application.user.id !== userId) {
+    if (formFieldValidation.formField.screenComponent.screenVersion.screen.featureVersion.feature.app.user.id !== userId) {
       throw new ForbiddenException('No tienes permiso para acceder a esta validación');
     }
 
@@ -84,7 +119,10 @@ export class FormFieldValidationsService {
       validationType: updateFormFieldValidationDto.validationType,
     });
 
-    return this.formFieldValidationsRepository.findOne(id, { relations: ['validationType'] });
+    return this.formFieldValidationsRepository.findOne({
+			where: { id },
+			relations: ['validationType']
+		});
   }
 
   async remove(id: string, userId: string): Promise<void> {
