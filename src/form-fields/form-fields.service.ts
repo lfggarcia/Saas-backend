@@ -14,16 +14,27 @@ export class FormFieldsService {
   ) {}
 
   async create(createFormFieldDto: CreateFormFieldDto, userId: string): Promise<FormField> {
-    // Verificar si el usuario es propietario del componente de pantalla
-    const screenComponent = await this.formFieldsRepository.manager.findOne('ScreenComponent', createFormFieldDto.screen_component_id, {
-      relations: ['screenVersion', 'screenVersion.screen', 'screenVersion.screen.featureVersion', 'screenVersion.screen.featureVersion.feature', 'screenVersion.screen.featureVersion.feature.application', 'screenVersion.screen.featureVersion.feature.application.user'],
-    });
+    const {screenComponent} = await this.formFieldsRepository.findOne({
+			where:{
+				screenComponent: {
+					id: createFormFieldDto.screen_component_id,
+				}
+			},
+			relations: [
+				'screenComponent.screenVersion',
+				'screenComponent.screenVersion.screen',
+				'screenComponent.screenVersion.screen.featureVersion',
+				'screenComponent.screenVersion.screen.featureVersion.feature',
+				'screenComponent.screenVersion.screen.featureVersion.feature.app',
+				'screenComponent.screenVersion.screen.featureVersion.feature.app.user'
+			]
+		});
 
     if (!screenComponent) {
       throw new NotFoundException('Componente de pantalla no encontrado');
     }
 
-    if (screenComponent.screenVersion.screen.featureVersion.feature.application.user.id !== userId) {
+    if (screenComponent.screenVersion.screen.featureVersion.feature.app.user.id !== userId) {
       throw new ForbiddenException('No tienes permiso para agregar campos a este componente');
     }
 
@@ -37,15 +48,27 @@ export class FormFieldsService {
   }
 
   async findAllByScreenComponent(screenComponentId: string, userId: string): Promise<FormField[]> {
-    const screenComponent = await this.formFieldsRepository.manager.findOne('ScreenComponent', screenComponentId, {
-      relations: ['screenVersion', 'screenVersion.screen', 'screenVersion.screen.featureVersion', 'screenVersion.screen.featureVersion.feature', 'screenVersion.screen.featureVersion.feature.application', 'screenVersion.screen.featureVersion.feature.application.user'],
-    });
+    const {screenComponent} = await this.formFieldsRepository.findOne({
+			where: {
+				screenComponent: {
+					id: screenComponentId,
+				}
+			},
+			relations: [
+				'screenComponent.screenVersion',
+				'screenComponent.screenVersion.screen',
+				'screenComponent.screenVersion.screen.featureVersion',
+				'screenComponent.screenVersion.screen.featureVersion.feature',
+				'screenComponent.screenVersion.screen.featureVersion.feature.app',
+				'screenComponent.screenVersion.screen.featureVersion.feature.app.user'
+			]
+		})
 
     if (!screenComponent) {
       throw new NotFoundException('Componente de pantalla no encontrado');
     }
 
-    if (screenComponent.screenVersion.screen.featureVersion.feature.application.user.id !== userId) {
+    if (screenComponent.screenVersion.screen.featureVersion.feature.app.user.id !== userId) {
       throw new ForbiddenException('No tienes permiso para acceder a los campos de este componente');
     }
 
@@ -58,14 +81,23 @@ export class FormFieldsService {
   async findOne(id: string, userId: string): Promise<FormField> {
     const formField = await this.formFieldsRepository.findOne({
       where: { id },
-      relations: ['screenComponent', 'screenComponent.screenVersion', 'screenComponent.screenVersion.screen', 'screenComponent.screenVersion.screen.featureVersion', 'screenComponent.screenVersion.screen.featureVersion.feature', 'screenComponent.screenVersion.screen.featureVersion.feature.application', 'screenComponent.screenVersion.screen.featureVersion.feature.application.user', 'fieldType'],
+      relations: [
+				'screenComponent',
+				'screenComponent.screenVersion',
+				'screenComponent.screenVersion.screen',
+				'screenComponent.screenVersion.screen.featureVersion',
+				'screenComponent.screenVersion.screen.featureVersion.feature',
+				'screenComponent.screenVersion.screen.featureVersion.feature.app',
+				'screenComponent.screenVersion.screen.featureVersion.feature.app.user',
+				'fieldType'
+			],
     });
 
     if (!formField) {
       throw new NotFoundException('Campo de formulario no encontrado');
     }
 
-    if (formField.screenComponent.screenVersion.screen.featureVersion.feature.application.user.id !== userId) {
+    if (formField.screenComponent.screenVersion.screen.featureVersion.feature.app.user.id !== userId) {
       throw new ForbiddenException('No tienes permiso para acceder a este campo');
     }
 
@@ -84,7 +116,10 @@ export class FormFieldsService {
       fieldType: updateFormFieldDto.fieldType,
     });
 
-    return this.formFieldsRepository.findOne(id, { relations: ['fieldType'] });
+    return this.formFieldsRepository.findOne({
+			where: { id },
+			relations: ['fieldType']
+		});
   }
 
   async remove(id: string, userId: string): Promise<void> {
