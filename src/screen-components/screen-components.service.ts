@@ -15,16 +15,25 @@ export class ScreenComponentsService {
 
   async create(createScreenComponentDto: CreateScreenComponentDto, userId: string): Promise<ScreenComponent> {
     // Verificar si el usuario es propietario de la pantalla
-    const screenVersion = await this.screenComponentsRepository.manager.findOne('ScreenVersion', {
-      where: { id: createScreenComponentDto.screen_version_id },
-      relations: ['screen', 'screen.featureVersion', 'screen.featureVersion.feature', 'screen.featureVersion.feature.application', 'screen.featureVersion.feature.application.user'],
-    });
+    const {screenVersion} = await this.screenComponentsRepository.findOne({
+			where: {
+				screenVersion: { id: createScreenComponentDto.screen_version_id }
+			},
+			relations: [
+				'screenVersion',
+				'screenVersion.screen',
+				'screenVersion.screen.featureVersion',
+				'screenVersion.screen.featureVersion.feature',
+				'screenVersion.screen.featureVersion.feature.app',
+				'screenVersion.screen.featureVersion.feature.app.user'
+			],
+		})
 
     if (!screenVersion) {
       throw new NotFoundException('Versión de pantalla no encontrada');
     }
 
-    const applicationUserId = screenVersion.screen.featureVersion.feature.application.user.id;
+    const applicationUserId = screenVersion.screen.featureVersion.feature.app.user.id;
 
     if (applicationUserId !== userId) {
       throw new ForbiddenException('No tienes permiso para modificar componentes en esta pantalla');
@@ -41,16 +50,29 @@ export class ScreenComponentsService {
   }
 
   async findAllByScreenVersion(screenVersionId: string, userId: string): Promise<ScreenComponent[]> {
-    const screenVersion = await this.screenComponentsRepository.manager.findOne('ScreenVersion', {
-      where: { id: screenVersionId },
-      relations: ['screen', 'screen.featureVersion', 'screen.featureVersion.feature', 'screen.featureVersion.feature.application', 'screen.featureVersion.feature.application.user'],
-    });
+    const {screenVersion} = await this.screenComponentsRepository.findOne({
+			where: {
+				screenVersion: { id: screenVersionId }
+			},
+			relations: [
+				'screenVersion',
+				'screenVersion.screen',
+				'screenVersion.screen.featureVersion',
+				'screenVersion.screen.featureVersion.feature',
+				'screenVersion.screen.featureVersion.feature.app',
+				'screenVersion.screen.featureVersion.feature.app.user'
+			],
+		})
+		// .manager.findOne('ScreenVersion', {
+    //   where: { id: screenVersionId },
+    //   relations: ['screen', 'screen.featureVersion', 'screen.featureVersion.feature', 'screen.featureVersion.feature.application', 'screen.featureVersion.feature.application.user'],
+    // });
 
     if (!screenVersion) {
       throw new NotFoundException('Versión de pantalla no encontrada');
     }
 
-    const applicationUserId = screenVersion.screen.featureVersion.feature.application.user.id;
+    const applicationUserId = screenVersion.screen.featureVersion.feature.app.user.id;
 
     if (applicationUserId !== userId) {
       throw new ForbiddenException('No tienes permiso para acceder a los componentes de esta pantalla');
@@ -70,8 +92,8 @@ export class ScreenComponentsService {
         'screenVersion.screen',
         'screenVersion.screen.featureVersion',
         'screenVersion.screen.featureVersion.feature',
-        'screenVersion.screen.featureVersion.feature.application',
-        'screenVersion.screen.featureVersion.feature.application.user',
+        'screenVersion.screen.featureVersion.feature.app',
+        'screenVersion.screen.featureVersion.feature.app.user',
         'globalComponent',
         'translationKey',
       ],
@@ -81,7 +103,7 @@ export class ScreenComponentsService {
       throw new NotFoundException('Componente de pantalla no encontrado');
     }
 
-    const applicationUserId = screenComponent.screenVersion.screen.featureVersion.feature.application.user.id;
+    const applicationUserId = screenComponent.screenVersion.screen.featureVersion.feature.app.user.id;
 
     if (applicationUserId !== userId) {
       throw new ForbiddenException('No tienes permiso para acceder a este componente');
@@ -109,7 +131,10 @@ export class ScreenComponentsService {
       translationKey: updateScreenComponentDto.translationKey,
     });
 
-    return this.screenComponentsRepository.findOne(id, { relations: ['globalComponent', 'translationKey'] });
+    return this.screenComponentsRepository.findOne({
+			where: { id },
+			relations: ['globalComponent', 'translationKey'],
+		})
   }
 
   async remove(id: string, userId: string): Promise<void> {
