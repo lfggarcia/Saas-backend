@@ -18,8 +18,11 @@ export class GlobalStyleVariantsService {
 
   async create(createVariantDto: CreateGlobalStyleVariantDto, userId: string): Promise<GlobalStyleVariant> {
     // Verificar si el usuario es propietario del estilo global
-    const globalStyle = await this.globalStylesRepository.findOne(createVariantDto.global_style_id, {
-      relations: ['application', 'application.user'],
+    const globalStyle = await this.globalStylesRepository.findOne({
+				where: {
+					id: createVariantDto.global_style_id
+				},
+				relations: ['application', 'application.user'],
     });
 
     if (!globalStyle) {
@@ -39,9 +42,12 @@ export class GlobalStyleVariantsService {
   }
 
   async findAllByGlobalStyle(globalStyleId: string, userId: string): Promise<GlobalStyleVariant[]> {
-    const globalStyle = await this.globalStylesRepository.findOne(globalStyleId, {
-      relations: ['application', 'application.user'],
-    });
+    const globalStyle = await this.globalStylesRepository.findOne({
+			where: {
+				id: globalStyleId
+			},
+			relations: ['application', 'application.user'],
+		})
 
     if (!globalStyle) {
       throw new NotFoundException('Estilo global no encontrado');
@@ -57,9 +63,10 @@ export class GlobalStyleVariantsService {
   }
 
   async findOne(id: string, userId: string): Promise<GlobalStyleVariant> {
-    const variant = await this.variantsRepository.findOne(id, {
-      relations: ['globalStyle', 'globalStyle.application', 'globalStyle.application.user'],
-    });
+    const variant = await this.variantsRepository.findOne({
+			where: { id },
+			relations: ['globalStyle', 'globalStyle.application', 'globalStyle.application.user'],
+		});
 
     if (!variant) {
       throw new NotFoundException('Variante no encontrada');
@@ -77,7 +84,9 @@ export class GlobalStyleVariantsService {
 
     await this.variantsRepository.update(id, updateVariantDto);
 
-    return this.variantsRepository.findOne(id);
+    return this.variantsRepository.findOne({
+			where: { id }
+		});
   }
 
   async remove(id: string, userId: string): Promise<void> {
