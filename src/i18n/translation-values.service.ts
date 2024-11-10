@@ -14,10 +14,14 @@ export class TranslationValuesService {
   ) {}
 
   async create(createTranslationValueDto: CreateTranslationValueDto, userId: string): Promise<TranslationValue> {
-    // Verificar si el usuario es propietario de la aplicación asociada
-    const translationKey = await this.translationValuesRepository.manager.findOne('TranslationKey', createTranslationValueDto.translation_key_id, {
-      relations: ['application', 'application.user'],
-    });
+    const {translationKey} = await this.translationValuesRepository.findOne({
+			where: {
+				translationKey: {
+					id: createTranslationValueDto.translation_key_id
+				},
+			},
+			relations: ['translationKey', 'translationKey.application', 'translationKey.application.user'],
+		});
 
     if (!translationKey) {
       throw new NotFoundException('Clave de traducción no encontrada');
@@ -27,9 +31,14 @@ export class TranslationValuesService {
       throw new ForbiddenException('No tienes permiso para agregar traducciones a esta clave');
     }
 
-    const language = await this.translationValuesRepository.manager.findOne('Language', createTranslationValueDto.language_id, {
-      relations: ['application', 'application.user'],
-    });
+    const {language} = await this.translationValuesRepository.findOne({
+			where: {
+				language: {
+					id: createTranslationValueDto.language_id
+				}
+			},
+			relations: ['language', 'language.application', 'language.application.user'],
+		})
 
     if (!language) {
       throw new NotFoundException('Idioma no encontrado');
@@ -49,9 +58,12 @@ export class TranslationValuesService {
   }
 
   async findAllByTranslationKey(translationKeyId: string, userId: string): Promise<TranslationValue[]> {
-    const translationKey = await this.translationValuesRepository.manager.findOne('TranslationKey', translationKeyId, {
-      relations: ['application', 'application.user'],
-    });
+    const {translationKey} = await this.translationValuesRepository.findOne({
+			where: { 
+				translationKey: { id: translationKeyId }
+			},
+			relations: ['translationKey', 'translationKey.application', 'translationKey.application.user'],
+		})
 
     if (!translationKey) {
       throw new NotFoundException('Clave de traducción no encontrada');
@@ -89,7 +101,10 @@ export class TranslationValuesService {
 
     await this.translationValuesRepository.update(id, updateTranslationValueDto);
 
-    return this.translationValuesRepository.findOne(id, { relations: ['language'] });
+    return this.translationValuesRepository.findOne({
+			where: { id },
+			relations: ['language']
+		});
   }
 
   async remove(id: string, userId: string): Promise<void> {
