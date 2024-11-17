@@ -17,7 +17,7 @@ export class DefaultTokensController {
 	}
 
 	@Get('default-tokens/:id')
-	async findOne(id: string) {
+	async findOne(@Param('id') id: string) {
 		return this.defaultTokensService.findOne(id);
 	}
 

@@ -17,7 +17,7 @@ export class ComponentTypesController {
 	}
 
 	@Get('component-types/:id')
-	async findOne(id: string) {
+	async findOne(@Param('id') id: string) {
 		return this.componentTypesService.findOne(id);
 	}
 

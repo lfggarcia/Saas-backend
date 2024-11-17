@@ -17,7 +17,7 @@ export class FieldTypesController {
 	}
 
 	@Get('field-types/:id')
-	async findOne(id: string) {
+	async findOne(@Param('id') id: string) {
 		return this.fieldTypesService.findOne(id);
 	}
 

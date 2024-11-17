@@ -17,7 +17,7 @@ export class ValidationTypesController {
 	}
 
 	@Get('validation-types/:id')
-	async findOne(id: string) {
+	async findOne(@Param('id') id: string) {
 		return this.validationTypesService.findOne(id);
 	}
 

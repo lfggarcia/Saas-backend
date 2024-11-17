@@ -17,7 +17,7 @@ export class AliasesController {
 	}
 
 	@Get('aliases/:id')
-	async findOne(id: string) {
+	async findOne(@Param('id') id: string) {
 		return this.aliasesService.findOne(id);
 	}
 

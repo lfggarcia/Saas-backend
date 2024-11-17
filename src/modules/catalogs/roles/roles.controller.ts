@@ -18,7 +18,7 @@ export class RolesController {
 	}
 
 	@Get('roles/:id')
-	async findOne(id: string) {
+	async findOne(@Param('id') id: string) {
 		return this.rolesService.findOne(id);
 	}
 

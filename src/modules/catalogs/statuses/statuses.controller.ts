@@ -17,7 +17,7 @@ export class StatusesController {
 	}
 
 	@Get('statuses/:id')
-	async findOne(id: string) {
+	async findOne(@Param('id') id: string) {
 		return this.statusesService.findOne(id);
 	}
 

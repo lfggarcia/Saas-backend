@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Patch, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Patch, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/commons/guards/roles.guard';
 import { TokenGroupsService } from './token-groups.service';
@@ -17,7 +17,7 @@ export class TokenGroupsController {
 	}
 
 	@Get('token-groups/:id')
-	async findOne(id: string) {
+	async findOne(@Param('id') id: string) {
 		return this.tokenGroupsService.findOne(id);
 	}
 
@@ -29,13 +29,13 @@ export class TokenGroupsController {
 
 	@Patch('token-groups/:id')
 	@Roles('admin')
-	async update(@Query() query: any) {
-		return this.tokenGroupsService.update(query.id, query);
+	async update(@Param('id') id: string,@Query() query: any) {
+		return this.tokenGroupsService.update(id, query);
 	}
 
 	@Delete('token-groups/:id')
 	@Roles('admin')
-	async remove(id: string) {
+	async remove(@Param('id') id: string) {
 		return this.tokenGroupsService.remove(id);
 	}
 }
