@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AliasesService } from './aliases/aliases.service';
 import { AliasesController } from './aliases/aliases.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Aliases, ComponentTypes, DefaultTokens, FieldTypes, TokenGroups } from '../../entities';
+import { Aliases, ComponentTypes, DefaultTokens, FieldTypes, TokenGroups, ValidationTypes } from '../../entities';
 import { TokenGroupsService } from './token-groups/token-groups.service';
 import { TokenGroupsController } from './token-groups/token-groups.controller';
 import { DefaultTokensService } from './default-tokens/default-tokens.service';
@@ -11,28 +11,33 @@ import { ComponentTypesController } from './component-types/component-types.cont
 import { ComponentTypesService } from './component-types/component-types.service';
 import { FieldTypesService } from './field-types/field-types.service';
 import { FieldTypesController } from './field-types/field-types.controller';
+import { ValidationTypesController } from './validation-types/validation-types.controller';
+import { ValidationTypesService } from './validation-types/validation-types.service';
 
 @Module({
 	imports: [TypeOrmModule.forFeature([
-		Aliases,
-		TokenGroups,
-		DefaultTokens,
-		ComponentTypes,
-		FieldTypes
+		Aliases
+		,TokenGroups
+		,DefaultTokens
+		,ComponentTypes
+		,FieldTypes
+		,ValidationTypes
 	])],
   providers: [
 		AliasesService,
 		TokenGroupsService,
 		DefaultTokensService,
 		ComponentTypesService,
-		FieldTypesService
+		FieldTypesService,
+		ValidationTypesService
 	],
   controllers: [
 		AliasesController,
 		TokenGroupsController,
 		DefaultTokensController,
 		ComponentTypesController,
-		FieldTypesController
+		FieldTypesController,
+		ValidationTypesController
 	]
 })
 export class CatalogsModule {}
