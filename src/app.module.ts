@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TestModule } from './test/test.module';
 import * as entities from './entities';
 import { AuthModule } from './modules/auth/auth.module';
+import { CatalogsModule } from './modules/catalogs/catalogs.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { AuthModule } from './modules/auth/auth.module';
       inject: [ConfigService],
     }),
     TestModule,
-		AuthModule
+		AuthModule,
+		CatalogsModule
   ],
 })
 export class AppModule {}
