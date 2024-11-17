@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AliasesService } from './aliases/aliases.service';
 import { AliasesController } from './aliases/aliases.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Aliases, ComponentTypes, DefaultTokens, FieldTypes, Plans, Roles, Statuses, TokenGroups, ValidationTypes } from '../../entities';
+import { Aliases, ComponentTypes, DefaultTokens, FieldTypes, Plans, Roles, Statuses, TokenGroupAliases, TokenGroups, ValidationTypes } from '../../entities';
 import { TokenGroupsService } from './token-groups/token-groups.service';
 import { TokenGroupsController } from './token-groups/token-groups.controller';
 import { DefaultTokensService } from './default-tokens/default-tokens.service';
@@ -19,6 +19,8 @@ import { RolesController } from './roles/roles.controller';
 import { RolesService } from './roles/roles.service';
 import { PlansService } from './plans/plans.service';
 import { PlansController } from './plans/plans.controller';
+import { TokenGroupAliasesController } from './token-group-aliases/token-group-aliases.controller';
+import { TokenGroupAliasesService } from './token-group-aliases/token-group-aliases.service';
 
 @Module({
 	imports: [TypeOrmModule.forFeature([
@@ -31,6 +33,7 @@ import { PlansController } from './plans/plans.controller';
 		,Statuses
 		,Roles
 		,Plans
+		,TokenGroupAliases
 	])],
   providers: [
 		AliasesService,
@@ -41,7 +44,8 @@ import { PlansController } from './plans/plans.controller';
 		ValidationTypesService,
 		StatusesService,
 		RolesService,
-		PlansService
+		PlansService,
+		TokenGroupAliasesService
 	],
   controllers: [
 		AliasesController,
@@ -52,7 +56,8 @@ import { PlansController } from './plans/plans.controller';
 		ValidationTypesController,
 		StatusesController,
 		RolesController,
-		PlansController
+		PlansController,
+		TokenGroupAliasesController
 	]
 })
 export class CatalogsModule {}
