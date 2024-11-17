@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { AliasesService } from './aliases.service';
 import { RolesGuard } from '../../../commons/guards/roles.guard';
 import { Roles } from 'src/commons/decorators/roles.decorator';
@@ -27,7 +27,7 @@ export class AliasesController {
 		return this.aliasesService.create(data);
 	}
 
-	@Put('aliases/:id')
+	@Patch('aliases/:id')
 	@Roles('admin')
 	async update(@Param('id') id: string, @Body() data: any) {
 		return this.aliasesService.update(id, data);

@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Patch, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/commons/guards/roles.guard';
 import { TokenGroupsService } from './token-groups.service';
@@ -27,7 +27,7 @@ export class TokenGroupsController {
 		return this.tokenGroupsService.create(query);
 	}
 
-	@Put('token-groups/:id')
+	@Patch('token-groups/:id')
 	@Roles('admin')
 	async update(@Query() query: any) {
 		return this.tokenGroupsService.update(query.id, query);
