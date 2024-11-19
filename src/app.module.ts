@@ -5,6 +5,7 @@ import { TestModule } from './test/test.module';
 import * as entities from './entities';
 import { AuthModule } from './modules/auth/auth.module';
 import { CatalogsModule } from './modules/catalogs/catalogs.module';
+import { ApplicationsModule } from './modules/applications/applications.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { CatalogsModule } from './modules/catalogs/catalogs.module';
     }),
     TestModule,
 		AuthModule,
-		CatalogsModule
+		CatalogsModule,
+		ApplicationsModule
   ],
 })
 export class AppModule {}
