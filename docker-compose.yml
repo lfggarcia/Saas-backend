@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: conta_db
+    environment:
+      POSTGRES_DB: contabilidad_db
+      POSTGRES_USER: conta_admin
+      POSTGRES_PASSWORD: conta_pass_segura
+    ports:
+      - '5432:5432'
+    volumes:
+      - conta_db:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_conta
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
+  redis:
+    image: redis:alpine
+    container_name: redis_conta
+    ports:
+      - '6379:6379'
+
+  backend-nestjs:
+    build: .
+    container_name: backend_nestjs
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+      - rabbitmq
+      - redis
+    environment:
+      DATABASE_URL: postgres://conta_admin:conta_pass_segura@postgres:5432/contabilidad_db
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+      REDIS_URL: redis://redis:6379
+
+volumes:
+  conta_db:
