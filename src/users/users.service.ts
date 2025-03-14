@@ -13,6 +13,10 @@ export class UsersService {
 		private usersRepository: Repository<Users>
 	) {}
 
+	findByEmail(email: string) {
+		return this.usersRepository.findOne({ where: { email } });
+	}
+
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
   }

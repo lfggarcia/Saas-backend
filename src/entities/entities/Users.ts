@@ -1,4 +1,5 @@
 import {
+	BeforeInsert,
   Column,
   Entity,
   Index,
@@ -16,6 +17,8 @@ import { UserRoles } from "./UserRoles";
 import { UserTokens } from "./UserTokens";
 import { Companies } from "./Companies";
 import { UserStatus } from "./UserStatus";
+import * as bcrypt from 'bcrypt';
+
 
 @Index("users_pkey", ["idUser"], { unique: true })
 @Entity("users", { schema: "public" })
@@ -69,4 +72,9 @@ export class Users {
   @ManyToOne(() => UserStatus, (userStatus) => userStatus.users)
   @JoinColumn([{ name: "status_id", referencedColumnName: "idStatus" }])
   status: UserStatus;
+
+	@BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 }
