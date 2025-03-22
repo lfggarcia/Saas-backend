@@ -1,0 +1,60 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: no_code_db
+    environment:
+      POSTGRES_DB: no_code_db
+      POSTGRES_USER: no_code_admin
+      POSTGRES_PASSWORD: no_code_pass_segura
+    ports:
+      - '5432:5432'
+    volumes:
+      - conta_db:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U no_code_admin -d no_code_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_no_code
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    restart: always
+
+  redis:
+    image: redis:alpine
+    container_name: redis_no_code
+    ports:
+      - '6379:6379'
+    restart: always
+
+  backend-nestjs:
+    build: .
+    container_name: backend_no_code
+    ports:
+      - '3000:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
+      redis:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgres://no_code_admin:no_code_pass_segura@postgres:5432/no_code_db
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+      REDIS_URL: redis://redis:6379
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: ["yarn", "start:dev"]
+    restart: always
+
+volumes:
+  no_code_db:
