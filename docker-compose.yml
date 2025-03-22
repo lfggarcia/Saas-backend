@@ -11,7 +11,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - conta_db:/var/lib/postgresql/data
+      - no_code_db:/var/lib/postgresql/data
     restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U no_code_admin -d no_code_db"]
