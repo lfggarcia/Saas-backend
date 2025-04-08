@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ModulesModule } from './module/modules/modules.module';
-import * as entities from './entities/entities';
+import { StyleAliasesModule } from './module/style-aliases/style-aliases.module';
+import * as entities from './entities';
 
 @Module({
   imports: [
@@ -13,16 +13,16 @@ import * as entities from './entities/entities';
       imports: [ConfigModule],
       useFactory: async () => ({
         type: 'postgres',
-      	url: process.env.DATABASE_URL,
+				url: process.env.DATABASE_URL,
       	autoLoadEntities: true,
-      	synchronize: true,
+      	synchronize: false,
         entities: Object.values(entities),
       }),
       inject: [
 				ConfigService
 			],
     }),
-		ModulesModule
+		StyleAliasesModule
   ],
 })
 export class AppModule {}
