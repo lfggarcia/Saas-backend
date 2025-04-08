@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { StyleAliasesModule } from './module/style-aliases/style-aliases.module';
+import { TokenDefinitionsModule } from './module/token-definitions/token-definitions.module';
 import * as entities from './entities';
 
 @Module({
@@ -22,7 +23,8 @@ import * as entities from './entities';
 				ConfigService
 			],
     }),
-		StyleAliasesModule
+		StyleAliasesModule,
+		TokenDefinitionsModule
   ],
 })
 export class AppModule {}
