@@ -1,5 +1,6 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { StyleAliases } from "./StyleAliases";
+import { Users } from "./Users";
 
 @Index("user_aliases_pkey", ["id"], { unique: true })
 @Index("user_aliases_user_id_short_key_key", ["shortKey", "userId"], {
@@ -30,4 +31,8 @@ export class UserAliases {
   @ManyToOne(() => StyleAliases, (styleAliases) => styleAliases.userAliases)
   @JoinColumn([{ name: "alias_id", referencedColumnName: "id" }])
   alias: StyleAliases;
+
+  @ManyToOne(() => Users, (users) => users.userAliases, { onDelete: "CASCADE" })
+  @JoinColumn([{ name: "user_id", referencedColumnName: "id" }])
+  user: Users;
 }
