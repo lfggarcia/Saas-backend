@@ -31,3 +31,24 @@ export {TranslationKeys} from "./TranslationKeys"
 export {UserLanguages} from "./UserLanguages"
 
 // -- end translation entities
+
+// -- start app logic entities
+export {AppCollaboratorPermissions} from "./AppCollaboratorPermissions"
+export {AppCollaborators} from "./AppCollaborators"
+export {Apps} from "./Apps"
+export {CollaboratorRoles} from "./CollaboratorRoles"
+export {ComponentPool} from "./ComponentPool"
+export {ComponentPoolProperties} from "./ComponentPoolProperties"
+export {ComponentTypes} from "./ComponentTypes"
+export {Features} from "./Features"
+export {FeatureScreens} from "./FeatureScreens"
+export {FeatureVersions} from "./FeatureVersions"
+export {FeatureVersionScreens} from "./FeatureVersionScreens"
+export {Navigations} from "./Navigations"
+export {NavigationTypes} from "./NavigationTypes"
+export {PropertyTypes} from "./PropertyTypes"
+export {ScreenComponentOverrides} from "./ScreenComponentOverrides"
+export {ScreenComponents} from "./ScreenComponents"
+export {Screens} from "./Screens"
+export {ScreenVersions} from "./ScreenVersions"
+// -- end app logic entities

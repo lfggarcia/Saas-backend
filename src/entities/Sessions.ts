@@ -2,6 +2,8 @@ import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { Users } from "./Users";
 
 @Index("sessions_pkey", ["id"], { unique: true })
+@Index("PK_3238ef96f18b355b671619111bc", ["id"], { unique: true })
+@Index("UQ_e9f62f5dcb8a54b84234c9e7a06", ["token"], { unique: true })
 @Index("sessions_token_key", ["token"], { unique: true })
 @Entity("sessions", { schema: "public" })
 export class Sessions {
@@ -12,7 +14,7 @@ export class Sessions {
   })
   id: string;
 
-  @Column("text", { name: "token", unique: true })
+  @Column("text", { name: "token" })
   token: string;
 
   @Column("text", { name: "ip_address", nullable: true })

@@ -1,11 +1,15 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
 import { TranslationKeys } from "./TranslationKeys";
 import { UserLanguages } from "./UserLanguages";
 
+@Index("PK_35f97f7c0e4322a7a16ed598f5e", ["id"], { unique: true })
 @Index("user_translations_pkey", ["id"], { unique: true })
 @Index("user_translations_key_id_language_id_key", ["keyId", "languageId"], {
   unique: true,
 })
+@Index("idx_user_translations_key_lang", ["keyId", "languageId"], {})
+@Index("UQ_700452c396ceeb236c2d5386916", ["keyId"], { unique: true })
+@Index("UQ_8c224e431bcf2c33ed3a959795d", ["languageId"], { unique: true })
 @Entity("user_translations", { schema: "public" })
 export class UserTranslations {
   @Column("uuid", {
@@ -15,10 +19,10 @@ export class UserTranslations {
   })
   id: string;
 
-  @Column("uuid", { name: "key_id", unique: true })
+  @Column("uuid", { name: "key_id" })
   keyId: string;
 
-  @Column("uuid", { name: "language_id", unique: true })
+  @Column("uuid", { name: "language_id" })
   languageId: string;
 
   @Column("text", { name: "translation" })
@@ -31,7 +35,7 @@ export class UserTranslations {
   })
   lastUpdatedAt: Date | null;
 
-  @ManyToOne(
+  @OneToOne(
     () => TranslationKeys,
     (translationKeys) => translationKeys.userTranslations,
     { onDelete: "CASCADE" }
@@ -39,7 +43,7 @@ export class UserTranslations {
   @JoinColumn([{ name: "key_id", referencedColumnName: "id" }])
   key: TranslationKeys;
 
-  @ManyToOne(
+  @OneToOne(
     () => UserLanguages,
     (userLanguages) => userLanguages.userTranslations,
     { onDelete: "CASCADE" }
