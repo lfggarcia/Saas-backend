@@ -5,6 +5,7 @@ import { StyleAliasesModule } from './module/style-aliases/style-aliases.module'
 import { TokenDefinitionsModule } from './module/token-definitions/token-definitions.module';
 import { TokenCategoriesModule } from './module/token-categories/token-categories.module';
 import { GlobalStyleVariantTypesModule } from './module/global-style-variant-types/global-style-variant-types.module';
+import { PermissionTypeCatalogModule } from './module/permission_type_catalog/permission_type_catalog.module';
 import * as entities from './entities';
 
 @Module({
@@ -28,7 +29,8 @@ import * as entities from './entities';
 		StyleAliasesModule,
 		TokenDefinitionsModule,
 		TokenCategoriesModule,
-		GlobalStyleVariantTypesModule
+		GlobalStyleVariantTypesModule,
+		PermissionTypeCatalogModule
   ],
 })
 export class AppModule {}
