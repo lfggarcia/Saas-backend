@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { NavigationTypesService } from './navigation-types.service';
 import { CreateNavigationTypeDto } from './dto/create-navigation-type.dto';
 import { UpdateNavigationTypeDto } from './dto/update-navigation-type.dto';
@@ -13,22 +13,22 @@ export class NavigationTypesController {
   }
 
   @Get()
-  findAll() {
-    return this.navigationTypesService.findAll();
+  findAll(@Query() query: Partial<CreateNavigationTypeDto>) {
+    return this.navigationTypesService.findAll(query);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.navigationTypesService.findOne(+id);
+    return this.navigationTypesService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateNavigationTypeDto: UpdateNavigationTypeDto) {
-    return this.navigationTypesService.update(+id, updateNavigationTypeDto);
+    return this.navigationTypesService.update(id, updateNavigationTypeDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.navigationTypesService.remove(+id);
+    return this.navigationTypesService.remove(id);
   }
 }
