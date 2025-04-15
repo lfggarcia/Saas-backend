@@ -61,6 +61,9 @@ export class UserLanguagesService {
 			throw new NotFoundException(`UserLanguage with ID ${id} does not exist.`);
 		}
 		const {userId,...data} = updateUserLanguageDto;
+		if (!userId) {
+			throw new NotFoundException(`User ID is required.`);
+		}
 		const user = await this.usersService.findOne(userId);
 		if (!user) {
 			throw new NotFoundException(`User with ID ${userId} does not exist.`);
