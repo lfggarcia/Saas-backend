@@ -8,6 +8,7 @@ import { GlobalStyleVariantTypesModule } from './module/global-style-variant-typ
 import { PermissionTypeCatalogModule } from './module/permission_type_catalog/permission_type_catalog.module';
 import { PropertyTypesModule } from './module/property_types/property_types.module';
 import { ComponentTypesModule } from './module/component_types/component_types.module';
+import { CollaboratorRolesModule } from './module/collaborator-roles/collaborator-roles.module';
 import * as entities from './entities';
 
 @Module({
@@ -34,7 +35,8 @@ import * as entities from './entities';
 		GlobalStyleVariantTypesModule,
 		PermissionTypeCatalogModule,
 		PropertyTypesModule,
-		ComponentTypesModule
+		ComponentTypesModule,
+		CollaboratorRolesModule
   ],
 })
 export class AppModule {}
