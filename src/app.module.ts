@@ -13,6 +13,8 @@ import { RolesModule } from './module/roles/roles.module';
 import { UserStatusCatalogModule } from './module/user-status-catalog/user-status-catalog.module';
 import { NavigationTypesModule } from './module/navigation-types/navigation-types.module';
 import { ScreensModule } from './module/screens/screens.module';
+import { UserLanguagesModule } from './module/user-languages/user-languages.module';
+import { UsersModule } from './module/users/users.module';
 import * as entities from './entities';
 
 @Module({
@@ -44,7 +46,9 @@ import * as entities from './entities';
 		RolesModule,
 		UserStatusCatalogModule,
 		NavigationTypesModule,
-		ScreensModule
+		ScreensModule,
+		UserLanguagesModule,
+		UsersModule
   ],
 })
 export class AppModule {}
