@@ -9,6 +9,7 @@ import { PermissionTypeCatalogModule } from './module/permission_type_catalog/pe
 import { PropertyTypesModule } from './module/property_types/property_types.module';
 import { ComponentTypesModule } from './module/component_types/component_types.module';
 import { CollaboratorRolesModule } from './module/collaborator-roles/collaborator-roles.module';
+import { RolesModule } from './module/roles/roles.module';
 import * as entities from './entities';
 
 @Module({
@@ -36,7 +37,8 @@ import * as entities from './entities';
 		PermissionTypeCatalogModule,
 		PropertyTypesModule,
 		ComponentTypesModule,
-		CollaboratorRolesModule
+		CollaboratorRolesModule,
+		RolesModule
   ],
 })
 export class AppModule {}
