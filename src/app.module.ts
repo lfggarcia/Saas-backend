@@ -10,6 +10,7 @@ import { PropertyTypesModule } from './module/property_types/property_types.modu
 import { ComponentTypesModule } from './module/component_types/component_types.module';
 import { CollaboratorRolesModule } from './module/collaborator-roles/collaborator-roles.module';
 import { RolesModule } from './module/roles/roles.module';
+import { UserStatusCatalogModule } from './module/user-status-catalog/user-status-catalog.module';
 import * as entities from './entities';
 
 @Module({
@@ -38,7 +39,8 @@ import * as entities from './entities';
 		PropertyTypesModule,
 		ComponentTypesModule,
 		CollaboratorRolesModule,
-		RolesModule
+		RolesModule,
+		UserStatusCatalogModule
   ],
 })
 export class AppModule {}
