@@ -12,6 +12,7 @@ import { CollaboratorRolesModule } from './module/collaborator-roles/collaborato
 import { RolesModule } from './module/roles/roles.module';
 import { UserStatusCatalogModule } from './module/user-status-catalog/user-status-catalog.module';
 import { NavigationTypesModule } from './module/navigation-types/navigation-types.module';
+import { ScreensModule } from './module/screens/screens.module';
 import * as entities from './entities';
 
 @Module({
@@ -42,7 +43,8 @@ import * as entities from './entities';
 		CollaboratorRolesModule,
 		RolesModule,
 		UserStatusCatalogModule,
-		NavigationTypesModule
+		NavigationTypesModule,
+		ScreensModule
   ],
 })
 export class AppModule {}
