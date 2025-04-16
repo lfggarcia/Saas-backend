@@ -9,5 +9,6 @@ import { NavigationsModule } from '../navigations/navigations.module';
 	imports: [TypeOrmModule.forFeature([Features]),NavigationsModule],
   controllers: [FeaturesController],
   providers: [FeaturesService],
+	exports: [FeaturesService],
 })
 export class FeaturesModule {}
