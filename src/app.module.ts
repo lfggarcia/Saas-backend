@@ -18,6 +18,7 @@ import { UsersModule } from './module/users/users.module';
 import { AppsModule } from './module/apps/apps.module';
 import { NavigationsModule } from './module/navigations/navigations.module';
 import { FeaturesModule } from './module/features/features.module';
+import { ComponentPoolModule } from './module/component-pool/component-pool.module';
 import * as entities from './entities';
 
 @Module({
@@ -54,7 +55,8 @@ import * as entities from './entities';
 		UsersModule,
 		AppsModule,
 		NavigationsModule,
-		FeaturesModule
+		FeaturesModule,
+		ComponentPoolModule
   ],
 })
 export class AppModule {}

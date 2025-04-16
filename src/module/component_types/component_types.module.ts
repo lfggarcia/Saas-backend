@@ -8,5 +8,6 @@ import { ComponentTypes } from '../../entities';
 	imports: [TypeOrmModule.forFeature([ComponentTypes])],
   controllers: [ComponentTypesController],
   providers: [ComponentTypesService],
+	exports: [ComponentTypesService],
 })
 export class ComponentTypesModule {}
