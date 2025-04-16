@@ -12,6 +12,6 @@ import { UsersService } from '../users/users.service';
 	imports: [TypeOrmModule.forFeature([Navigations,Apps, Users, UserStatusCatalog, NavigationTypes])],
   controllers: [NavigationsController],
   providers: [NavigationsService, AppsService, NavigationTypesService, UsersService, UserStatusCatalogService],
-	
+	exports: [NavigationsService],
 })
 export class NavigationsModule {}
