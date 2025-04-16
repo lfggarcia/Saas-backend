@@ -8,5 +8,6 @@ import { Screens } from '../../entities';
 	imports: [TypeOrmModule.forFeature([Screens])],
   controllers: [ScreensController],
   providers: [ScreensService],
+	exports: [ScreensService],
 })
 export class ScreensModule {}
