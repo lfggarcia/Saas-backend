@@ -22,6 +22,7 @@ import { ComponentPoolModule } from './module/component-pool/component-pool.modu
 import { ScreenComponentsModule } from './module/screen-components/screen-components.module';
 import { ScreenComponentOverridesModule } from './module/screen-component-overrides/screen-component-overrides.module';
 import { TranslationKeysModule } from './module/translation-keys/translation-keys.module';
+import { PermissionsModule } from './module/permissions/permissions.module';
 import * as entities from './entities';
 
 @Module({
@@ -62,7 +63,8 @@ import * as entities from './entities';
 		ComponentPoolModule,
 		ScreenComponentsModule,
 		ScreenComponentOverridesModule,
-		TranslationKeysModule
+		TranslationKeysModule,
+		PermissionsModule
   ],
 })
 export class AppModule {}

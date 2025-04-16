@@ -8,5 +8,6 @@ import { PermissionTypeCatalog } from '../../entities';
 	imports: [TypeOrmModule.forFeature([PermissionTypeCatalog])],
   controllers: [PermissionTypeCatalogController],
   providers: [PermissionTypeCatalogService],
+	exports: [PermissionTypeCatalogService]
 })
 export class PermissionTypeCatalogModule {}
