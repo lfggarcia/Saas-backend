@@ -20,6 +20,7 @@ import { NavigationsModule } from './module/navigations/navigations.module';
 import { FeaturesModule } from './module/features/features.module';
 import { ComponentPoolModule } from './module/component-pool/component-pool.module';
 import { ScreenComponentsModule } from './module/screen-components/screen-components.module';
+import { ScreenComponentOverridesModule } from './module/screen-component-overrides/screen-component-overrides.module';
 import * as entities from './entities';
 
 @Module({
@@ -58,7 +59,8 @@ import * as entities from './entities';
 		NavigationsModule,
 		FeaturesModule,
 		ComponentPoolModule,
-		ScreenComponentsModule
+		ScreenComponentsModule,
+		ScreenComponentOverridesModule
   ],
 })
 export class AppModule {}
