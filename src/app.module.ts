@@ -16,6 +16,7 @@ import { ScreensModule } from './module/screens/screens.module';
 import { UserLanguagesModule } from './module/user-languages/user-languages.module';
 import { UsersModule } from './module/users/users.module';
 import { AppsModule } from './module/apps/apps.module';
+import { NavigationsModule } from './module/navigations/navigations.module';
 import * as entities from './entities';
 
 @Module({
@@ -50,7 +51,8 @@ import * as entities from './entities';
 		ScreensModule,
 		UserLanguagesModule,
 		UsersModule,
-		AppsModule
+		AppsModule,
+		NavigationsModule
   ],
 })
 export class AppModule {}
