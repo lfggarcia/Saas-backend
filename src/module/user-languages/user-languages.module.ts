@@ -10,5 +10,6 @@ import { UserStatusCatalogService } from '../user-status-catalog/user-status-cat
 	imports: [TypeOrmModule.forFeature([Users, UserLanguages, UserStatusCatalog])],
   controllers: [UserLanguagesController],
   providers: [UserLanguagesService, UsersService, UserStatusCatalogService],
+	exports: [UserLanguagesService]
 })
 export class UserLanguagesModule {}
