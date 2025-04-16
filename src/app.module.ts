@@ -21,6 +21,7 @@ import { FeaturesModule } from './module/features/features.module';
 import { ComponentPoolModule } from './module/component-pool/component-pool.module';
 import { ScreenComponentsModule } from './module/screen-components/screen-components.module';
 import { ScreenComponentOverridesModule } from './module/screen-component-overrides/screen-component-overrides.module';
+import { TranslationKeysModule } from './module/translation-keys/translation-keys.module';
 import * as entities from './entities';
 
 @Module({
@@ -60,7 +61,8 @@ import * as entities from './entities';
 		FeaturesModule,
 		ComponentPoolModule,
 		ScreenComponentsModule,
-		ScreenComponentOverridesModule
+		ScreenComponentOverridesModule,
+		TranslationKeysModule
   ],
 })
 export class AppModule {}
