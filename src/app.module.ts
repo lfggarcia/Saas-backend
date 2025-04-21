@@ -29,6 +29,7 @@ import { UserThemesModule } from './module/user-themes/user-themes.module';
 import { UserTokensModule } from './module/user-tokens/user-tokens.module';
 import { UserThemeTokensModule } from './module/user-theme-tokens/user-theme-tokens.module';
 import { UserGlobalStylesModule } from './module/user-global-styles/user-global-styles.module';
+import { UserRolesModule } from './module/user-roles/user-roles.module';
 import * as entities from './entities';
 
 @Module({
@@ -76,7 +77,8 @@ import * as entities from './entities';
 		UserThemesModule,
 		UserTokensModule,
 		UserThemeTokensModule,
-		UserGlobalStylesModule
+		UserGlobalStylesModule,
+		UserRolesModule
   ],
 })
 export class AppModule {}
