@@ -27,6 +27,7 @@ import { ScreenVersionsModule } from './module/screen-versions/screen-versions.m
 import { UserTranslationsModule } from './module/user-translations/user-translations.module';
 import { UserThemesModule } from './module/user-themes/user-themes.module';
 import { UserTokensModule } from './module/user-tokens/user-tokens.module';
+import { UserThemeTokensModule } from './module/user-theme-tokens/user-theme-tokens.module';
 import * as entities from './entities';
 
 @Module({
@@ -72,7 +73,8 @@ import * as entities from './entities';
 		ScreenVersionsModule,
 		UserTranslationsModule,
 		UserThemesModule,
-		UserTokensModule
+		UserTokensModule,
+		UserThemeTokensModule
   ],
 })
 export class AppModule {}
