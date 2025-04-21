@@ -28,6 +28,7 @@ import { UserTranslationsModule } from './module/user-translations/user-translat
 import { UserThemesModule } from './module/user-themes/user-themes.module';
 import { UserTokensModule } from './module/user-tokens/user-tokens.module';
 import { UserThemeTokensModule } from './module/user-theme-tokens/user-theme-tokens.module';
+import { UserGlobalStylesModule } from './module/user-global-styles/user-global-styles.module';
 import * as entities from './entities';
 
 @Module({
@@ -74,7 +75,8 @@ import * as entities from './entities';
 		UserTranslationsModule,
 		UserThemesModule,
 		UserTokensModule,
-		UserThemeTokensModule
+		UserThemeTokensModule,
+		UserGlobalStylesModule
   ],
 })
 export class AppModule {}

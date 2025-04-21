@@ -8,5 +8,6 @@ import { GlobalStyleVariantTypes } from '../../entities';
 	imports: [TypeOrmModule.forFeature([GlobalStyleVariantTypes])],
   controllers: [GlobalStyleVariantTypesController],
   providers: [GlobalStyleVariantTypesService],
+	exports: [GlobalStyleVariantTypesService]
 })
 export class GlobalStyleVariantTypesModule {}
