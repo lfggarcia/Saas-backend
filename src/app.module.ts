@@ -32,6 +32,7 @@ import { UserGlobalStylesModule } from './module/user-global-styles/user-global-
 import { UserRolesModule } from './module/user-roles/user-roles.module';
 import { UserAliasesModule } from './module/user-aliases/user-aliases.module';
 import { ComponentPoolPropertiesModule } from './module/component-pool-properties/component-pool-properties.module';
+import { AppCollaboratorsModule } from './module/app-collaborators/app-collaborators.module';
 import * as entities from './entities';
 
 @Module({
@@ -82,7 +83,8 @@ import * as entities from './entities';
 		UserGlobalStylesModule,
 		UserRolesModule,
 		UserAliasesModule,
-		ComponentPoolPropertiesModule
+		ComponentPoolPropertiesModule,
+		AppCollaboratorsModule
   ],
 })
 export class AppModule {}

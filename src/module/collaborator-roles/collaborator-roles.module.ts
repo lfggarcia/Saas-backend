@@ -8,5 +8,6 @@ import { CollaboratorRoles } from '../../entities';
 	imports: [TypeOrmModule.forFeature([CollaboratorRoles])],
   controllers: [CollaboratorRolesController],
   providers: [CollaboratorRolesService],
+	exports: [CollaboratorRolesService],
 })
 export class CollaboratorRolesModule {}
