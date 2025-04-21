@@ -8,5 +8,6 @@ import { UserStatusCatalog } from '../../entities';
 	imports: [TypeOrmModule.forFeature([UserStatusCatalog])],
   controllers: [UserStatusCatalogController],
   providers: [UserStatusCatalogService],
+	exports: [UserStatusCatalogService]
 })
 export class UserStatusCatalogModule {}

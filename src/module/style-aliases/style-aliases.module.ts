@@ -8,5 +8,6 @@ import { StyleAliases } from '../../entities';
 	imports: [TypeOrmModule.forFeature([StyleAliases])],
   controllers: [StyleAliasesController],
   providers: [StyleAliasesService],
+	exports: [StyleAliasesService]
 })
 export class StyleAliasesModule {}
