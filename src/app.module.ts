@@ -31,6 +31,7 @@ import { UserThemeTokensModule } from './module/user-theme-tokens/user-theme-tok
 import { UserGlobalStylesModule } from './module/user-global-styles/user-global-styles.module';
 import { UserRolesModule } from './module/user-roles/user-roles.module';
 import { UserAliasesModule } from './module/user-aliases/user-aliases.module';
+import { ComponentPoolPropertiesModule } from './module/component-pool-properties/component-pool-properties.module';
 import * as entities from './entities';
 
 @Module({
@@ -80,7 +81,8 @@ import * as entities from './entities';
 		UserThemeTokensModule,
 		UserGlobalStylesModule,
 		UserRolesModule,
-		UserAliasesModule
+		UserAliasesModule,
+		ComponentPoolPropertiesModule
   ],
 })
 export class AppModule {}
