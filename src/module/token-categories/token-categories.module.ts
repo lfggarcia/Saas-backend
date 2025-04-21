@@ -8,5 +8,6 @@ import { TokenCategories } from '../../entities';
 	imports: [TypeOrmModule.forFeature([TokenCategories])],
   controllers: [TokenCategoriesController],
   providers: [TokenCategoriesService],
+	exports: [TokenCategoriesService]
 })
 export class TokenCategoriesModule {}

@@ -26,6 +26,7 @@ import { PermissionsModule } from './module/permissions/permissions.module';
 import { ScreenVersionsModule } from './module/screen-versions/screen-versions.module';
 import { UserTranslationsModule } from './module/user-translations/user-translations.module';
 import { UserThemesModule } from './module/user-themes/user-themes.module';
+import { UserTokensModule } from './module/user-tokens/user-tokens.module';
 import * as entities from './entities';
 
 @Module({
@@ -70,7 +71,8 @@ import * as entities from './entities';
 		PermissionsModule,
 		ScreenVersionsModule,
 		UserTranslationsModule,
-		UserThemesModule
+		UserThemesModule,
+		UserTokensModule
   ],
 })
 export class AppModule {}
