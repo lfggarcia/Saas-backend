@@ -35,6 +35,7 @@ import { ComponentPoolPropertiesModule } from './module/component-pool-propertie
 import { AppCollaboratorsModule } from './module/app-collaborators/app-collaborators.module';
 import { AppCollaboratorPermissionsModule } from './module/app-collaborator-permissions/app-collaborator-permissions.module';
 import { FeatureScreensModule } from './module/feature-screens/feature-screens.module';
+import { FeatureVersionsModule } from './module/feature-versions/feature-versions.module';
 import * as entities from './entities';
 
 @Module({
@@ -88,7 +89,8 @@ import * as entities from './entities';
 		ComponentPoolPropertiesModule,
 		AppCollaboratorsModule,
 		AppCollaboratorPermissionsModule,
-		FeatureScreensModule
+		FeatureScreensModule,
+		FeatureVersionsModule
   ],
 })
 export class AppModule {}
