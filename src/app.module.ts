@@ -36,6 +36,7 @@ import { AppCollaboratorsModule } from './module/app-collaborators/app-collabora
 import { AppCollaboratorPermissionsModule } from './module/app-collaborator-permissions/app-collaborator-permissions.module';
 import { FeatureScreensModule } from './module/feature-screens/feature-screens.module';
 import { FeatureVersionsModule } from './module/feature-versions/feature-versions.module';
+import { FeatureVersionScreensModule } from './module/feature-version-screens/feature-version-screens.module';
 import * as entities from './entities';
 
 @Module({
@@ -90,7 +91,8 @@ import * as entities from './entities';
 		AppCollaboratorsModule,
 		AppCollaboratorPermissionsModule,
 		FeatureScreensModule,
-		FeatureVersionsModule
+		FeatureVersionsModule,
+		FeatureVersionScreensModule
   ],
 })
 export class AppModule {}
