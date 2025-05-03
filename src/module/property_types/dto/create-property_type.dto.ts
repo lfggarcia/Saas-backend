@@ -1,17 +1,17 @@
 import { Expose, Type } from "class-transformer";
-import { IsEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreatePropertyTypeDto {
 
 	@Expose()
 	@IsString()
-	@IsEmpty()
+	@IsNotEmpty()
 	@Type(() => String)
 	name: string;
 
 	@Expose()
 	@IsString()
-	@IsEmpty()
+	@IsNotEmpty()
 	@Type(() => String)
 	description: string | null;
 }
