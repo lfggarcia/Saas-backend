@@ -4,8 +4,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Users } from '../../entities';
 import { BaseService } from '../../common/base.service';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { FindManyOptions, FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
 import { UserStatusCatalogService } from '../user-status-catalog/user-status-catalog.service';
+import { ResponseUserDto } from './dto/response-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -16,7 +17,7 @@ export class UsersService {
 		private readonly usersRepository: Repository<Users>,
 		private readonly userStatusCatalogService: UserStatusCatalogService
 	) {
-		this.baseService = new BaseService(this.usersRepository);
+		this.baseService = new BaseService(this.usersRepository,ResponseUserDto);
 	}
 
   async create(createUserDto: CreateUserDto) {
@@ -46,7 +47,11 @@ export class UsersService {
 			return filters;
 		}
 
-		return this.baseService.findAll(query, buildFilters);
+		const relations: FindOptionsRelations<Users> = {
+			status: true,
+		};
+
+		return this.baseService.findAll(query, buildFilters, relations);
   }
 
   findOne(id: string) {
