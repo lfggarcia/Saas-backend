@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAppDto } from './dto/create-app.dto';
 import { UpdateAppDto } from './dto/update-app.dto';
-import { Apps } from '../../entities';
+import { Apps, Users } from '../../entities';
 import { BaseService } from '../../common/base.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
@@ -25,7 +25,10 @@ export class AppsService {
 		if (!userId) {
 			throw new NotFoundException('User ID is required');
 		}
-		const user = await this.usersService.findOne(userId);
+		const user = await this.usersService.findOne(userId, true);
+		if (!(user instanceof Users)) {
+			throw new NotFoundException(`User with ID ${userId} does not exist or is not a valid user.`);
+		}
 		if (!user) {
 			throw new NotFoundException(`User with ID ${userId} does not exist.`);
 		}

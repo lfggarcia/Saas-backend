@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
 import { UserStatusCatalogService } from '../user-status-catalog/user-status-catalog.service';
 import { ResponseUserDto } from './dto/response-user.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
@@ -54,8 +55,20 @@ export class UsersService {
 		return this.baseService.findAll(query, buildFilters, relations);
   }
 
-  findOne(id: string) {
-    return this.usersRepository.findOne({ where: { id } });
+  async findOne(id: string, complete = false) {
+    const user = await this.usersRepository.findOne({
+			where: { id },
+			relations: {
+				status: true,
+			},
+		});
+		if (!user) {
+			throw new NotFoundException(`User with ID ${id} does not exist.`);
+		}
+		if (complete) {
+			return user;
+		}
+		return plainToInstance(ResponseUserDto, user, { excludeExtraneousValues: true }) as ResponseUserDto;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
