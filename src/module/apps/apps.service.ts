@@ -4,8 +4,9 @@ import { UpdateAppDto } from './dto/update-app.dto';
 import { Apps, Users } from '../../entities';
 import { BaseService } from '../../common/base.service';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
 import { UsersService } from '../users/users.service';
+import { ResponseAppDto } from './dto/response-app-dto';
 
 @Injectable()
 export class AppsService {
@@ -17,7 +18,7 @@ export class AppsService {
 		private readonly appsRepository: Repository<Apps>,
 		private readonly usersService: UsersService,
 	) {
-		this.baseService = new BaseService(this.appsRepository);
+		this.baseService = new BaseService(this.appsRepository,ResponseAppDto);
 	}
 
   async create(createAppDto: CreateAppDto) {
@@ -46,7 +47,11 @@ export class AppsService {
 			if (q.userId) filters.user = { id: q.userId };
 			return filters;
 		};
-		return this.baseService.findAll(query, buildFilters);
+
+		const relations: FindOptionsRelations<Apps> = {
+			user: true,
+		};
+		return this.baseService.findAll(query, buildFilters,relations);
   }
 
   findOne(id: string) {

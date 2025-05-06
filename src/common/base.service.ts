@@ -38,7 +38,7 @@ export class BaseService<T extends ObjectLiteral> {
     });
 
     return {
-      data: data,
+      data: this.transformResponse(data),
       pagination: {
         totalItems: total,
         currentPage: page,
