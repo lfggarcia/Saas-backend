@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { DefaultTokensService } from './default-tokens.service';
 import { CreateDefaultTokenDto } from './dto/create-default-token.dto';
 import { UpdateDefaultTokenDto } from './dto/update-default-token.dto';
@@ -13,22 +13,22 @@ export class DefaultTokensController {
   }
 
   @Get()
-  findAll() {
-    return this.defaultTokensService.findAll();
+  findAll(@Query() query: Partial<CreateDefaultTokenDto>) {
+    return this.defaultTokensService.findAll(query);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.defaultTokensService.findOne(+id);
+    return this.defaultTokensService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDefaultTokenDto: UpdateDefaultTokenDto) {
-    return this.defaultTokensService.update(+id, updateDefaultTokenDto);
+    return this.defaultTokensService.update(id, updateDefaultTokenDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.defaultTokensService.remove(+id);
+    return this.defaultTokensService.remove(id);
   }
 }
