@@ -4,8 +4,9 @@ import { UpdateComponentPoolDto } from './dto/update-component-pool.dto';
 import { BaseService } from '../../common/base.service';
 import { ComponentPool } from '../../entities';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
+import { DeepPartial, FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
 import { ComponentTypesService } from '../component_types/component_types.service';
+import { ResponseComponentPoolDto } from './dto/response-component-pool.dto';
 
 @Injectable()
 export class ComponentPoolService {
@@ -16,7 +17,7 @@ export class ComponentPoolService {
 		private readonly componentPoolRepository: Repository<ComponentPool>,
 		private readonly componentTypesService: ComponentTypesService
 	) {
-		this.baseService = new BaseService<ComponentPool>(this.componentPoolRepository);
+		this.baseService = new BaseService<ComponentPool>(this.componentPoolRepository, ResponseComponentPoolDto);
 	}
 
   async create(createComponentPoolDto: CreateComponentPoolDto) {
@@ -43,7 +44,11 @@ export class ComponentPoolService {
 			if (q.typeId) filters.type = { id: q.typeId };
 			return filters;
 		};
-		return this.baseService.findAll(query, buildFilters);
+
+		const relations: FindOptionsRelations<ComponentPool> = {
+			type: true,
+		};
+		return this.baseService.findAll(query, buildFilters,relations);
   }
 
   findOne(id: string) {
