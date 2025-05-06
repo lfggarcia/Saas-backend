@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { PropertyAliasesService } from './property-aliases.service';
 import { CreatePropertyAliasDto } from './dto/create-property-alias.dto';
 import { UpdatePropertyAliasDto } from './dto/update-property-alias.dto';
@@ -13,22 +13,22 @@ export class PropertyAliasesController {
   }
 
   @Get()
-  findAll() {
-    return this.propertyAliasesService.findAll();
+  findAll(@Query() query: Partial<CreatePropertyAliasDto>) {
+    return this.propertyAliasesService.findAll(query);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.propertyAliasesService.findOne(+id);
+    return this.propertyAliasesService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePropertyAliasDto: UpdatePropertyAliasDto) {
-    return this.propertyAliasesService.update(+id, updatePropertyAliasDto);
+    return this.propertyAliasesService.update(id, updatePropertyAliasDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.propertyAliasesService.remove(+id);
+    return this.propertyAliasesService.remove(id);
   }
 }
