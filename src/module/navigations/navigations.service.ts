@@ -4,9 +4,10 @@ import { UpdateNavigationDto } from './dto/update-navigation.dto';
 import { Navigations } from '../../entities';
 import { BaseService } from '../../common/base.service';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
+import { DeepPartial, FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
 import { AppsService } from '../apps/apps.service';
 import { NavigationTypesService } from '../navigation-types/navigation-types.service';
+import { ResponseNavigationDto } from './dto/response-navigation-dto';
 
 @Injectable()
 export class NavigationsService {
@@ -18,7 +19,7 @@ export class NavigationsService {
 		private readonly appsService: AppsService,
 		private readonly navigationTypeService: NavigationTypesService
 	) {
-		this.baseService = new BaseService(this.navigationsRepository);
+		this.baseService = new BaseService(this.navigationsRepository, ResponseNavigationDto);
 	}
 
   async create(createNavigationDto: CreateNavigationDto) {
@@ -57,7 +58,13 @@ export class NavigationsService {
 			if (q.typeId) filters.type = { id: q.typeId };
 			return filters;
 		};
-		return this.baseService.findAll(query, buildFilters);
+
+		const relations: FindOptionsRelations<Navigations> = {
+			app: true,
+			type: true,
+		};
+
+		return this.baseService.findAll(query, buildFilters, relations);
   }
 
   findOne(id: string) {

@@ -1,12 +1,33 @@
-export class ResponseNavigationDto {
-	id: string;
-	name: string;
-	appId: string;
-	typeId: string;
-	createdAt: Date;
-	updatedAt: Date;
+import { Expose, Type } from "class-transformer";
 
-	constructor(partial: Partial<ResponseNavigationDto>) {
-		Object.assign(this, partial);
-	}
+class ResponseAppDto {
+	@Expose()
+	id: string;
+	@Expose()
+	name: string;
+	@Expose()
+	description: string;
+}
+
+class ResponseNavigationTypeDto {
+	@Expose()
+	id: string;
+	@Expose()
+	name: string;
+}
+
+export class ResponseNavigationDto {
+	@Expose()
+	id: string;
+
+	@Expose()
+	name: string;
+
+	@Expose()
+	@Type(() => ResponseAppDto)
+	app: ResponseAppDto;
+
+	@Expose()
+	@Type(() => ResponseNavigationTypeDto)
+	type: ResponseNavigationTypeDto;
 }
