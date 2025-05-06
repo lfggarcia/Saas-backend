@@ -10,6 +10,7 @@ import { StyleVariantsModule } from './module/style-variants/style-variants.modu
 import { StyleVariantPropertiesModule } from './module/style-variant-properties/style-variant-properties.module';
 import { AppStyleVariantsModule } from './module/app-style-variants/app-style-variants.module';
 import { AppStyleVariantPropertiesModule } from './module/app-style-variant-properties/app-style-variant-properties.module';
+import { TokenStylesModule } from './module/token-styles/token-styles.module';
 import * as entities from './entities';
 
 @Module({
@@ -38,7 +39,8 @@ import * as entities from './entities';
 		StyleVariantsModule,
 		StyleVariantPropertiesModule,
 		AppStyleVariantsModule,
-		AppStyleVariantPropertiesModule
+		AppStyleVariantPropertiesModule,
+		TokenStylesModule
   ],
 })
 export class AppModule {}
