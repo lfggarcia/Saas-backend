@@ -4,8 +4,9 @@ import { UpdateFeatureDto } from './dto/update-feature.dto';
 import { BaseService } from '../../common/base.service';
 import { Features } from '../../entities';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
+import { DeepPartial, FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
 import { NavigationsService } from '../navigations/navigations.service';
+import { ResponseFeaturesDto } from './dto/response-feature.dto';
 
 @Injectable()
 export class FeaturesService {
@@ -16,7 +17,7 @@ export class FeaturesService {
 		private readonly featuresRepository: Repository<Features>,
 		private readonly navigationsService: NavigationsService
 	) {
-		this.baseService = new BaseService<Features>(this.featuresRepository);
+		this.baseService = new BaseService<Features>(this.featuresRepository,ResponseFeaturesDto);
 	}
 
   async create(createFeatureDto: CreateFeatureDto) {
@@ -43,7 +44,11 @@ export class FeaturesService {
 			if (q.navigationId) filters.navigation = { id: q.navigationId };
 			return filters;
 		};
-		return this.baseService.findAll(query, buildFilters);
+
+		const relations: FindOptionsRelations<Features> = {
+			navigation: true,
+		};
+		return this.baseService.findAll(query, buildFilters, relations);
   }
 
   findOne(id: string) {
