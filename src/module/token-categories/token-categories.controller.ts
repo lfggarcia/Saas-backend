@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { TokenCategoriesService } from './token-categories.service';
 import { CreateTokenCategoryDto } from './dto/create-token-category.dto';
 import { UpdateTokenCategoryDto } from './dto/update-token-category.dto';
@@ -13,22 +13,22 @@ export class TokenCategoriesController {
   }
 
   @Get()
-  findAll(@Query() query: any) {
-    return this.tokenCategoriesService.findAll(query);
+  findAll() {
+    return this.tokenCategoriesService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.tokenCategoriesService.findOne(id);
+    return this.tokenCategoriesService.findOne(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTokenCategoryDto: UpdateTokenCategoryDto) {
-    return this.tokenCategoriesService.update(id, updateTokenCategoryDto);
+    return this.tokenCategoriesService.update(+id, updateTokenCategoryDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.tokenCategoriesService.remove(id);
+    return this.tokenCategoriesService.remove(+id);
   }
 }

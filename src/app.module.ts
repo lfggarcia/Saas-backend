@@ -1,43 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { StyleAliasesModule } from './module/style-aliases/style-aliases.module';
-import { TokenDefinitionsModule } from './module/token-definitions/token-definitions.module';
+import { ApplicationsModule } from './module/applications/applications.module';
 import { TokenCategoriesModule } from './module/token-categories/token-categories.module';
-import { GlobalStyleVariantTypesModule } from './module/global-style-variant-types/global-style-variant-types.module';
-import { PermissionTypeCatalogModule } from './module/permission_type_catalog/permission_type_catalog.module';
-import { PropertyTypesModule } from './module/property_types/property_types.module';
-import { ComponentTypesModule } from './module/component_types/component_types.module';
-import { CollaboratorRolesModule } from './module/collaborator-roles/collaborator-roles.module';
-import { RolesModule } from './module/roles/roles.module';
-import { UserStatusCatalogModule } from './module/user-status-catalog/user-status-catalog.module';
-import { NavigationTypesModule } from './module/navigation-types/navigation-types.module';
-import { ScreensModule } from './module/screens/screens.module';
-import { UserLanguagesModule } from './module/user-languages/user-languages.module';
-import { UsersModule } from './module/users/users.module';
-import { AppsModule } from './module/apps/apps.module';
-import { NavigationsModule } from './module/navigations/navigations.module';
-import { FeaturesModule } from './module/features/features.module';
-import { ComponentPoolModule } from './module/component-pool/component-pool.module';
-import { ScreenComponentsModule } from './module/screen-components/screen-components.module';
-import { ScreenComponentOverridesModule } from './module/screen-component-overrides/screen-component-overrides.module';
-import { TranslationKeysModule } from './module/translation-keys/translation-keys.module';
-import { PermissionsModule } from './module/permissions/permissions.module';
-import { ScreenVersionsModule } from './module/screen-versions/screen-versions.module';
-import { UserTranslationsModule } from './module/user-translations/user-translations.module';
-import { UserThemesModule } from './module/user-themes/user-themes.module';
-import { UserTokensModule } from './module/user-tokens/user-tokens.module';
-import { UserThemeTokensModule } from './module/user-theme-tokens/user-theme-tokens.module';
-import { UserGlobalStylesModule } from './module/user-global-styles/user-global-styles.module';
-import { UserRolesModule } from './module/user-roles/user-roles.module';
-import { UserAliasesModule } from './module/user-aliases/user-aliases.module';
-import { ComponentPoolPropertiesModule } from './module/component-pool-properties/component-pool-properties.module';
-import { AppCollaboratorsModule } from './module/app-collaborators/app-collaborators.module';
-import { AppCollaboratorPermissionsModule } from './module/app-collaborator-permissions/app-collaborator-permissions.module';
-import { FeatureScreensModule } from './module/feature-screens/feature-screens.module';
-import { FeatureVersionsModule } from './module/feature-versions/feature-versions.module';
-import { FeatureVersionScreensModule } from './module/feature-version-screens/feature-version-screens.module';
-import { RolePermissionsModule } from './module/role-permissions/role-permissions.module';
+import { DefaultTokensModule } from './module/default-tokens/default-tokens.module';
+import { AppTokensModule } from './module/app-tokens/app-tokens.module';
+import { PropertyAliasesModule } from './module/property-aliases/property-aliases.module';
+import { StyleVariantsModule } from './module/style-variants/style-variants.module';
+import { StyleVariantPropertiesModule } from './module/style-variant-properties/style-variant-properties.module';
+import { AppStyleVariantsModule } from './module/app-style-variants/app-style-variants.module';
+import { AppStyleVariantPropertiesModule } from './module/app-style-variant-properties/app-style-variant-properties.module';
 import * as entities from './entities';
 
 @Module({
@@ -58,43 +30,15 @@ import * as entities from './entities';
 				ConfigService
 			],
     }),
-		StyleAliasesModule,
-		TokenDefinitionsModule,
+		ApplicationsModule,
 		TokenCategoriesModule,
-		GlobalStyleVariantTypesModule,
-		PermissionTypeCatalogModule,
-		PropertyTypesModule,
-		ComponentTypesModule,
-		CollaboratorRolesModule,
-		RolesModule,
-		UserStatusCatalogModule,
-		NavigationTypesModule,
-		ScreensModule,
-		UserLanguagesModule,
-		UsersModule,
-		AppsModule,
-		NavigationsModule,
-		FeaturesModule,
-		ComponentPoolModule,
-		ScreenComponentsModule,
-		ScreenComponentOverridesModule,
-		TranslationKeysModule,
-		PermissionsModule,
-		ScreenVersionsModule,
-		UserTranslationsModule,
-		UserThemesModule,
-		UserTokensModule,
-		UserThemeTokensModule,
-		UserGlobalStylesModule,
-		UserRolesModule,
-		UserAliasesModule,
-		ComponentPoolPropertiesModule,
-		AppCollaboratorsModule,
-		AppCollaboratorPermissionsModule,
-		FeatureScreensModule,
-		FeatureVersionsModule,
-		FeatureVersionScreensModule,
-		RolePermissionsModule
+		DefaultTokensModule,
+		AppTokensModule,
+		PropertyAliasesModule,
+		StyleVariantsModule,
+		StyleVariantPropertiesModule,
+		AppStyleVariantsModule,
+		AppStyleVariantPropertiesModule
   ],
 })
 export class AppModule {}
