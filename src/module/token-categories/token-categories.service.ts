@@ -1,26 +1,57 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTokenCategoryDto } from './dto/create-token-category.dto';
 import { UpdateTokenCategoryDto } from './dto/update-token-category.dto';
+import { TokenCategories } from '../../entities';
+import { BaseService } from '../../common/base.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
 export class TokenCategoriesService {
+	private baseService: BaseService<TokenCategories>;
+
+	constructor(
+		@InjectRepository(TokenCategories)
+		private readonly tokenCategoriesRepository: Repository<TokenCategories>,
+	) {
+		this.baseService = new BaseService<TokenCategories>(this.tokenCategoriesRepository);
+	}
+
   create(createTokenCategoryDto: CreateTokenCategoryDto) {
-    return 'This action adds a new tokenCategory';
+    const tokenCategory = this.tokenCategoriesRepository.create(createTokenCategoryDto);
+		return this.tokenCategoriesRepository.save(tokenCategory);
   }
 
-  findAll() {
-    return `This action returns all tokenCategories`;
+  findAll(query: Partial<CreateTokenCategoryDto>) {
+		const filters = (q: Partial<CreateTokenCategoryDto & FindOptionsWhere<TokenCategories>>) => {
+			const filter: FindOptionsWhere<TokenCategories> = {};
+			if (q.name) filter.name = q.name;
+			return filter;
+		}
+		return this.baseService.findAll(query, filters);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tokenCategory`;
+  findOne(id: string) {
+    return this.tokenCategoriesRepository.findOne({
+			where: { id },
+		});
   }
 
-  update(id: number, updateTokenCategoryDto: UpdateTokenCategoryDto) {
-    return `This action updates a #${id} tokenCategory`;
+  async update(id: string, updateTokenCategoryDto: UpdateTokenCategoryDto) {
+    const tokenCategory = await this.findOne(id);
+		if (!tokenCategory) {
+			throw new Error(`TokenCategory with id ${id} not found`);
+		}
+		const updatedTokenCategory = this.tokenCategoriesRepository.merge(tokenCategory, updateTokenCategoryDto);
+		return this.tokenCategoriesRepository.save(updatedTokenCategory);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tokenCategory`;
+  async remove(id: string) {
+    const tokenCategory = await this.findOne(id);
+		if (!tokenCategory) {
+			throw new Error(`TokenCategory with id ${id} not found`);
+		}
+		await this.tokenCategoriesRepository.remove(tokenCategory);
+		return tokenCategory;
   }
 }
