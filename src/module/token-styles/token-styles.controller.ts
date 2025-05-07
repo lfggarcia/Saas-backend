@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { TokenStylesService } from './token-styles.service';
 import { CreateTokenStyleDto } from './dto/create-token-style.dto';
 import { UpdateTokenStyleDto } from './dto/update-token-style.dto';
@@ -13,22 +13,22 @@ export class TokenStylesController {
   }
 
   @Get()
-  findAll() {
-    return this.tokenStylesService.findAll();
+  findAll(@Query() query: Partial<CreateTokenStyleDto>) {
+    return this.tokenStylesService.findAll(query);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.tokenStylesService.findOne(+id);
+    return this.tokenStylesService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTokenStyleDto: UpdateTokenStyleDto) {
-    return this.tokenStylesService.update(+id, updateTokenStyleDto);
+    return this.tokenStylesService.update(id, updateTokenStyleDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.tokenStylesService.remove(+id);
+    return this.tokenStylesService.remove(id);
   }
 }
